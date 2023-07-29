@@ -6,15 +6,19 @@ import routers from "@app/routers";
 
 //Load env for all
 import dotenv from "dotenv";
+import initService from "./init-service";
 dotenv.config();
 
-const app: Application = express();
-const port = process.env.SERVER_PORT || 3000;
+(async () => {
+  await initService();
+  const app: Application = express();
+  const port = process.env.SERVER_PORT || 3000;
 
-//Middleware and router
-middleware(app);
-routers(app);
+  //Middleware and router
+  middleware(app);
+  routers(app);
 
-app.listen(port, function () {
-  logger.info("", `App is binding on port ${port} !`);
-});
+  app.listen(port, function () {
+    logger.info("", `App is binding on port ${port} !`);
+  });
+})();

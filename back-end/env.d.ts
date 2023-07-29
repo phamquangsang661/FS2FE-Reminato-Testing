@@ -8,6 +8,7 @@ declare global {
       JWT_EXPIRED_TIME: string;
       YOUTUBE_API_KEY: string;
       YOUTUBE_API_URL: string;
+      RABBIT_MQ_HOST: string;
     }
   }
 }
