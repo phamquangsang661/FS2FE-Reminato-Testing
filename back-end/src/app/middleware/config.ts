@@ -1,7 +1,12 @@
-import { Application } from "express";
+import express, { Application } from "express";
 import cors from "cors";
 
 export default (app: Application) => {
-  //Cors
+    
+  //CORS
   app.use(cors());
+
+  //PARSE
+  app.use(express.json());
+  app.use(express.urlencoded());
 };

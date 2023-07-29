@@ -1,9 +1,6 @@
-/*
-loader.js
+import dotenv from "dotenv";
+dotenv.config();
 
-Usage (I'm also using dotenv, but you can omit the dotenv parts if needed):
-DOTENV_CONFIG_PATH=.env node -r dotenv/config --loader=./loader.js /bin/path/to/cli.ts
-*/
 import { pathToFileURL } from "node:url";
 import {
   getFormat,
@@ -22,7 +19,6 @@ const matchPath = tsConfigPaths.createMatchPath(absoluteBaseUrl, paths);
 export function resolve(specifier, context, defaultResolver) {
   let mappedSpecifier = matchPath(specifier);
   if (mappedSpecifier) {
-    console.log(mappedSpecifier);
     const isDirectory =
       fs.existsSync(mappedSpecifier) &&
       fs.lstatSync(mappedSpecifier).isDirectory();
@@ -31,7 +27,9 @@ export function resolve(specifier, context, defaultResolver) {
       mappedSpecifier += "\\index";
     }
     specifier = `${mappedSpecifier}.js`;
-
+    if (process.env.NODE_ENV == "DEVELOPMENT") {
+      console.log("LOADER: " + specifier);
+    }
     const url = specifier.startsWith("file:")
       ? specifier
       : pathToFileURL(specifier.toString());
