@@ -1,24 +1,18 @@
-import { NextFunction, Request, Response } from "express";
+import { Response } from "express";
 import prisma from "@services/prisma";
 import bCrypto from "bcrypt";
-import jwt from "jsonwebtoken";
 import { ConvertRequest, GetSchemaInfer } from "src/types/convert";
 import { signInSchema } from "./account-controller-schema";
 import { HttpError, HttpSuccess } from "@utils/http";
+import { signToken } from "@utils/utils";
 export class AccountController {
   async signIn(
     req: ConvertRequest<GetSchemaInfer<typeof signInSchema>["body"]>,
     res: Response
   ) {
-    return HttpSuccess(req, res, {
-      message: "TESTING",
-      data: {
-        abc: 1234,
-      },
-    });
     try {
       const { email, password } = req.body;
-      const user = await prisma.user.findFirst({
+      let user = await prisma.getInstance().user.findFirst({
         where: {
           email,
         },
@@ -29,37 +23,42 @@ export class AccountController {
       });
 
       if (!user) {
-        return HttpError(res, {
-          status: 500,
-          message: "TESTING",
+        //Sign up user if user don't exist
+        const hash = await bCrypto.hashSync(password, 10);
+        user = await prisma.getInstance().user.create({
+          data: {
+            password: hash,
+            email,
+          },
         });
+      } else {
+        const isTruePassword = await bCrypto.compareSync(
+          password,
+          user.password
+        );
+        if (!isTruePassword) {
+          return HttpError(res, {
+            status: 500,
+            message: "Incorrect username or password",
+          });
+        }
       }
+      const token = signToken({
+        id: user.id,
+        email: email,
+      });
 
-      const isTruePassword = await bCrypto.compareSync(password, user.password);
-      if (!isTruePassword) {
-        return res.status(500).json({
-          code: 500,
-          message: "Incorrect username or password",
-        });
-      }
-
-      // const token = jwt.sign(
-      //   {
-      //     id: user.id,
-      //     username: user.username,
-      //   },
-      //   process.env.JWT_SECRET,
-      //   {
-      //     expiresIn: 1000 * 60 * 60 * 24,
-      //   }
-      // );
-
-      // return res.status(200).json({
-      //   access_token: token,
-      // });
+      return HttpSuccess(req, res, {
+        data: {
+          access_token: token,
+        },
+        message: "Success",
+      });
     } catch (err) {
-      console.error(err);
-      res.status(500).send("Internal Server Error");
+      return HttpError(res, {
+        status: 500,
+        message: err?.message ?? "Internal Server Error",
+      });
     }
   }
 }
