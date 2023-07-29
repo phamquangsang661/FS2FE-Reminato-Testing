@@ -35,7 +35,7 @@ export class YoutubeService {
 
         if (cv && cv.length > 0) {
           const result = cv[0];
-            console.log(result.snippet.thumbnails)
+
           if (
             result?.snippet?.title &&
             result?.snippet?.description &&

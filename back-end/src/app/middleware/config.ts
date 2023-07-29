@@ -4,7 +4,11 @@ import cookieParser from "cookie-parser";
 
 export default (app: Application) => {
   //CORS
-  app.use(cors());
+  app.use(
+    cors({
+      origin: process.env.WEB_APP_URL ?? "*",
+    })
+  );
 
   //PARSE
   app.use(express.json());

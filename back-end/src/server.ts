@@ -6,8 +6,8 @@ import routers from "@app/routers";
 
 //Load env for all
 import dotenv from "dotenv";
-import initService from "./init-service";
 dotenv.config();
+import initService from "./init-service";
 
 (async () => {
   await initService();

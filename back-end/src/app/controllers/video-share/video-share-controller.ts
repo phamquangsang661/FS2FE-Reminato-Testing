@@ -43,6 +43,17 @@ export class VideoShareController {
           message: videoStatistic.reason,
         });
       }
+      //Send sharing notify to rabbit mq channel
+      const channel = await RabbitMQSender.getInstance();
+
+      channel.sendToQueue(
+        QUEUE.NOTIFICATION_SERVICE.SHARING,
+        Buffer.from(
+          JSON.stringify({
+            videoShareId: videoSharing.id,
+          } as NotificationServiceShardingConsumerData)
+        )
+      );
 
       return HttpSuccess(req, res, {
         data: videoSharing,
@@ -142,7 +153,6 @@ export class VideoShareController {
   ) {
     try {
       const limit = +(req.query.limit ?? 5);
-      console.log(limit);
       const isAuth = req.user.isAuth;
       const cursor = req.query.cursor ?? "";
       const cursorObj = cursor === "" ? undefined : { id: cursor };
