@@ -2,6 +2,7 @@ import * as util from "util";
 import { Response, Request } from "express";
 import Logger from "./logger";
 import chalk from "chalk";
+import { ConvertRequest } from "src/types/convert";
 
 function HttpError(
   res: Response,
@@ -15,10 +16,10 @@ function HttpError(
 util.inherits(Error, HttpError);
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function HttpSuccess<T = any>(
-  req: Request,
+function HttpSuccess<T = any, R extends ConvertRequest = Request>(
+  req: R,
   res: Response,
-  ctx: { data?: T; message: string }
+  ctx: { data?: T; message: string; [key: string]: any }
 ) {
   Logger.custom(chalk.bgGreenBright.white.bold, "SUCCESS", req.url);
   return res.status(200).json({

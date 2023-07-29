@@ -7,3 +7,12 @@ export const sharingVideoSchema = z.object({
     }),
   }),
 });
+
+export const getPublicVideoSharingSchema = z.object({
+  query: z
+    .object({
+      cursor: z.string().nullish(),
+      limit: z.number().nullish(),
+    })
+    .nullish(),
+});

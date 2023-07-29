@@ -2,7 +2,7 @@ import passport from "passport";
 import prisma from "@services/prisma";
 import passportJwt from "passport-jwt";
 import { Request } from "express";
-import { decodeAndVerifyToken } from "@utils/utils";
+import { decodeAndVerifyToken, isNullable } from "@utils/utils";
 import { User } from "@prisma/client";
 
 const JwtStrategy = passportJwt.Strategy;
@@ -42,6 +42,10 @@ passport.use(
   )
 );
 
+type UserDataAuth = Omit<User, "password" | "refreshToken"> & {
+  isAuth: boolean;
+};
+
 export class AuthNotRequiredStrategy extends passport.Strategy {
   name?: string = "AuthNotRequired";
   authenticate(
@@ -49,21 +53,24 @@ export class AuthNotRequiredStrategy extends passport.Strategy {
     req: Request
   ) {
     const token = cookieExtractor(req);
-    let user = null;
-    const decode = decodeAndVerifyToken(token) as Omit<
-      User,
-      "password" | "refreshToken"
-    >;
+    let user: UserDataAuth = null;
+    const decode = decodeAndVerifyToken(token) as UserDataAuth;
     if (decode != undefined) {
       user = decode;
-      this.success(decode, {
-        isAuth: true,
-      });
+      this.success(
+        decode &&
+          ({
+            isAuth: true,
+          } as UserDataAuth)
+      );
     }
 
-    this.success(user, {
-      isAuth: !user,
-    });
+    this.success(
+      user &&
+        ({
+          isAuth: !isNullable(user),
+        } as UserDataAuth)
+    );
   }
 }
 
