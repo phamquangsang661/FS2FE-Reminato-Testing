@@ -1,10 +1,17 @@
 import jwt from "jsonwebtoken";
 
 export const signToken = (
-  data: any,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  claims: any,
   expiredTime = process.env.JWT_EXPIRED_TIME ?? 60 * 60 * 1000
 ) => {
-  return jwt.sign(data, process.env.JWT_SECRET, {
+  return jwt.sign(claims, process.env.JWT_SECRET, {
     expiresIn: expiredTime,
+  });
+};
+
+export const decodeAndVerifyToken = (token: string) => {
+  return jwt.verify(token, process.env.JWT_SECRET, {
+    ignoreExpiration: true,
   });
 };

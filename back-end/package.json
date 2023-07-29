@@ -11,13 +11,9 @@
     "prisma:format": "npx npx prisma format",
     "db:migrate-dev": "npx prisma migrate dev --name init",
     "db:migrate-prod": "npx prisma migrate deploy ",
-    "db:auto": "yarn run prisma:generate && yarn run db:migrate-dev && yarn run db:reset",
-    "db:auto-prod": "yarn run prisma:generate && yarn run db:migrate-prod",
-    "db:reset": "npx prisma migrate reset",
-    "deploy:data": "pm2 start npm --name \"nodejs-telegram\" -- start --log-date-format=\"YYYY-MM-DD HH:mm Z\" ",
-    "deploy:api": " pm2 start start \"npm run start:api\" --name \"nodejs-telegram-server-api\"  --log-date-format=\"YYYY-MM-DD HH:mm Z\"",
-    "re:deploy:data": "pm2 delete nodejs-telegram  && pm2 start npm --name \"nodejs-telegram\" -- start --log-date-format=\"YYYY-MM-DD HH:mm Z\"  ",
-    "re:deploy:api": " pm2 delete nodejs-telegram-server-api  && pm2 start \"npm run start:api\"  --name \"nodejs-telegram-server-api\"  --log-date-format=\"YYYY-MM-DD HH:mm Z\""
+    "db:auto": "npm run prisma:generate && npm run db:migrate-dev && npm run db:reset",
+    "db:auto-prod": "npm run prisma:generate && npm run db:migrate-prod",
+    "db:reset": "npx prisma migrate reset"
   },
   "nodemonConfig": {
     "ignore": [
@@ -34,8 +30,10 @@
   },
   "dependencies": {
     "@prisma/client": "4.16.2",
+    "@supercharge/strings": "^2.0.0",
     "bcrypt": "^5.1.0",
     "chalk": "^5.3.0",
+    "cookie-parser": "^1.4.6",
     "crypto": "^1.0.1",
     "dayjs": "^1.11.7",
     "dotenv": "^16.3.1",

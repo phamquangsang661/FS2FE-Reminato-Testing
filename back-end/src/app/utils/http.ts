@@ -14,6 +14,7 @@ function HttpError(
 }
 util.inherits(Error, HttpError);
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function HttpSuccess<T = any>(
   req: Request,
   res: Response,

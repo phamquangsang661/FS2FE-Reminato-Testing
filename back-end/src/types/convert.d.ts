@@ -1,4 +1,5 @@
-import { Request, Response } from "express";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Request } from "express";
 import { ParamsDictionary } from "express-serve-static-core";
 import { z } from "zod";
 type ConvertRequest<
