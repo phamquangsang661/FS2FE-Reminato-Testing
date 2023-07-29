@@ -1,0 +1,71 @@
+{
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon --watch '*.ts' --watch '*.json' ",
+    "pre-start": "eslint ./src/*",
+    "start": " node  --experimental-specifier-resolution=node --no-warnings --loader ./loader.js ./src/server.ts",
+    "eslint:fix": "eslint --fix ./src/*",
+    "postinstall": "npm run prisma:generate && npm run db:migrate-prod ",
+    "seed": "ts-node src/prisma/seed.ts",
+    "prisma:generate": "npx prisma generate",
+    "prisma:format": "npx npx prisma format",
+    "db:migrate-dev": "npx prisma migrate dev --name init",
+    "db:migrate-prod": "npx prisma migrate deploy ",
+    "db:auto": "yarn run prisma:generate && yarn run db:migrate-dev && yarn run db:reset",
+    "db:auto-prod": "yarn run prisma:generate && yarn run db:migrate-prod",
+    "db:reset": "npx prisma migrate reset",
+    "deploy:data": "pm2 start npm --name \"nodejs-telegram\" -- start --log-date-format=\"YYYY-MM-DD HH:mm Z\" ",
+    "deploy:api": " pm2 start start \"npm run start:api\" --name \"nodejs-telegram-server-api\"  --log-date-format=\"YYYY-MM-DD HH:mm Z\"",
+    "re:deploy:data": "pm2 delete nodejs-telegram  && pm2 start npm --name \"nodejs-telegram\" -- start --log-date-format=\"YYYY-MM-DD HH:mm Z\"  ",
+    "re:deploy:api": " pm2 delete nodejs-telegram-server-api  && pm2 start \"npm run start:api\"  --name \"nodejs-telegram-server-api\"  --log-date-format=\"YYYY-MM-DD HH:mm Z\""
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      ".git",
+      "node_modules"
+    ],
+    "watch": [
+      "src"
+    ],
+    "exec": "node  --experimental-specifier-resolution=node --loader ./loader.js ./src/server.ts",
+    "ext": "ts, js"
+  },
+  "dependencies": {
+    "@prisma/client": "4.16.2",
+    "bcrypt": "^5.1.0",
+    "chalk": "^5.3.0",
+    "crypto": "^1.0.1",
+    "dayjs": "^1.11.7",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "lodash": "^4.17.21",
+    "node-fetch": "^2.6.9",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.1",
+    "socket.io": "^4.6.1",
+    "tsconfig-paths": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/express": "^4.17.17",
+    "@types/lodash": "^4.14.194",
+    "@types/node": "^18.16.2",
+    "@types/passport": "^1.0.12",
+    "@types/passport-jwt": "^3.0.8",
+    "@typescript-eslint/eslint-plugin": "^5.59.1",
+    "@typescript-eslint/parser": "^5.59.1",
+    "eslint": "^8.39.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "nodemon": "^2.0.22",
+    "prisma": "^4.16.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  },
+  "engines": {
+    "node": ">=16"
+  }
+}
