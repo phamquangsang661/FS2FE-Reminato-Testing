@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import chalk from "chalk";
+import chalk, { ChalkInstance } from "chalk";
 export default class Logger {
   static greenLog = chalk.greenBright;
   static yellowLog = chalk.yellowBright;
@@ -9,6 +9,7 @@ export default class Logger {
     this.log(
       this.timestamp(),
       this.greenLog(title == "" ? "INFO" : title),
+      "-",
       content.length == 0 ? "" : content.join(" ")
     );
   }
@@ -16,6 +17,7 @@ export default class Logger {
     this.log(
       this.timestamp(),
       this.yellowLog(title == "" ? "WARN" : title),
+      "-",
       content.length == 0 ? "" : content.join(" ")
     );
   }
@@ -23,6 +25,16 @@ export default class Logger {
     this.log(
       this.timestamp(),
       this.redLog(title == "" ? "ERROR" : title),
+      "-",
+      this.getErrorLogs(content).join(" ")
+    );
+  }
+
+  public static custom(chalkCustom: ChalkInstance, title, ...content) {
+    this.log(
+      this.timestamp(),
+      chalkCustom(title == "" ? "ERROR" : title),
+      "-",
       this.getErrorLogs(content).join(" ")
     );
   }
