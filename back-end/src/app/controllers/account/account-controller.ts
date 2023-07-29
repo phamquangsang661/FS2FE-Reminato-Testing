@@ -7,6 +7,8 @@ import { HttpError, HttpSuccess } from "@utils/http";
 import { signToken } from "@utils/utils";
 import dayjs from "dayjs";
 import { Str } from "@supercharge/strings";
+
+const DEFAULT_TIME_EXPIRED = 60 * 60 * 1000; //60 min;
 export class AccountController {
   async signIn(
     req: ConvertRequest<GetSchemaInfer<typeof signInSchema>["body"]>,
@@ -61,13 +63,15 @@ export class AccountController {
       });
 
       //Auth set cookie header
-      res.setHeader(
-        "Set-Cookie",
-        `jwt= ${token}; rs=${refreshToken}; expires=${dayjs()
-          .add(+(process.env.JWT_EXPIRED_TIME ?? 60 * 60 * 1000), "millisecond")
-          .toISOString()}`
-      );
-      res.setHeader("Content-Type", "application/json");
+
+      res.cookie("jwt", token, {
+        maxAge: +process.env.JWT_EXPIRED_TIME ?? DEFAULT_TIME_EXPIRED,
+        httpOnly: true,
+      });
+      res.cookie("rs", refreshToken, {
+        maxAge: +process.env.JWT_EXPIRED_TIME ?? DEFAULT_TIME_EXPIRED,
+        httpOnly: true,
+      });
 
       return HttpSuccess(req, res, {
         data: {

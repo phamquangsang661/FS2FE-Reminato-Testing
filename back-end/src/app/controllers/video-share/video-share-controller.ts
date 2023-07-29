@@ -1,4 +1,4 @@
-import { Response, Request } from "express";
+import { Response } from "express";
 import prisma from "@services/prisma";
 import { ConvertRequest, GetSchemaInfer } from "src/types/convert";
 import { HttpError, HttpSuccess } from "@utils/http";
