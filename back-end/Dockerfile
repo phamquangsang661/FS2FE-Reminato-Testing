@@ -1,19 +1,22 @@
-FROM node:16.13.1 AS development
+# Stage 1
+FROM node:16.13.1 AS installation
 
-WORKDIR /code
+WORKDIR /base
 
-COPY package.json /base/package.json
+COPY ./package.json /base/package.json
 RUN npm ci
+RUN npm run db:auto-prod; 
 
-# check every 30s to ensure this service returns HTTP 200
+# Stage 2
+FROM installation AS development
+COPY . /base
+
+# Stage 3
+FROM development AS operation 
 HEALTHCHECK --interval=30s \
   CMD node healthcheck.js
 
-# copy in our source code last, as it changes the most
-COPY . /base
-
-# intall development container 
-
+# Stage 4
 FROM development as dev-envs
 
 # install git 
