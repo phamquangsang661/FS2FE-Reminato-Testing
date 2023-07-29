@@ -14,7 +14,9 @@
     "db:auto": "npm run prisma:generate && npm run db:migrate-dev && npm run db:reset",
     "db:auto-prod": "npm run prisma:generate && npm run db:migrate-prod",
     "db:reset": "npx prisma migrate reset",
-    "g:env": "npx gen-env-types ./.env"
+    "g:env": "npx gen-env-types ./.env",
+    "docker:pull:rabbitmq": "docker pull rabbitmq:3-management",
+    "docker:run:rabbitmq": "docker run --rm -itd -p 15672:15672 -p 5672:5672 rabbitmq:3-management"
   },
   "nodemonConfig": {
     "ignore": [
@@ -32,6 +34,7 @@
   "dependencies": {
     "@prisma/client": "4.16.2",
     "@supercharge/strings": "^2.0.0",
+    "amqplib": "^0.10.3",
     "bcrypt": "^5.1.0",
     "chalk": "^5.3.0",
     "cookie-parser": "^1.4.6",
