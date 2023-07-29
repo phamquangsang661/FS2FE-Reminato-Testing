@@ -1,9 +1,11 @@
 {
   "type": "module",
   "scripts": {
-    "dev": "nodemon --watch '*.ts' --watch '*.json' ",
+    "dev": "nodemon --watch '*.ts' --watch '*.json' --loader ./loader.js ./src/server.ts",
+    "dev:video-service": "nodemon --watch '*.ts' --watch '*.json' --loader ./loader.js ./src/services/video/app.ts",
     "pre-start": "eslint ./src/*",
     "start": " node  --experimental-specifier-resolution=node --no-warnings --loader ./loader.js ./src/server.ts",
+    "start:video-service": " node  --experimental-specifier-resolution=node --no-warnings --loader ./loader.js ./src/services/video/app.ts",
     "eslint:fix": "eslint --fix ./src/*",
     "postinstall": "npm run prisma:generate && npm run db:migrate-prod && npm run g:env",
     "seed": "ts-node src/prisma/seed.ts",
@@ -28,7 +30,7 @@
     "watch": [
       "./src/**/*.*"
     ],
-    "exec": "node  --experimental-specifier-resolution=node --loader ./loader.js ./src/server.ts",
+    "exec":"node  --experimental-specifier-resolution=node ",
     "ext": "ts, js"
   },
   "dependencies": {

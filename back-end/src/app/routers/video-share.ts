@@ -5,6 +5,7 @@ import { VideoShareController } from "@app/controllers/video-share/video-share-c
 import {
   getPublicVideoSharingSchema,
   sharingVideoSchema,
+  voteVideoSchema,
 } from "@app/controllers/video-share/video-share-schema";
 const router = Router();
 const videoShareController = new VideoShareController();
@@ -25,5 +26,14 @@ router.get(
   }),
   validate(getPublicVideoSharingSchema),
   videoShareController.getPublicVideos
+);
+
+router.put(
+  "/:id/vote",
+  auth.authenticate("jwt", {
+    session: false,
+  }),
+  validate(voteVideoSchema),
+  videoShareController.voteVideo
 );
 export { router as videoShareRouter };

@@ -5,9 +5,12 @@ import { HttpError, HttpSuccess } from "@utils/http";
 import {
   getPublicVideoSharingSchema,
   sharingVideoSchema,
+  voteVideoSchema,
 } from "./video-share-schema";
 import { YoutubeService } from "@services/youtube";
 import { VideoShare } from "@prisma/client";
+import RabbitMQSender from "@services/rabbitmq";
+import { QUEUE } from "src/constants/queue";
 
 export class VideoShareController {
   async sharingVideo(
@@ -53,6 +56,82 @@ export class VideoShareController {
     }
   }
 
+  async voteVideo(
+    req: ConvertRequest<
+      unknown,
+      GetSchemaInfer<typeof voteVideoSchema>["params"]
+    >,
+    res: Response
+  ) {
+    try {
+      const userId = req.user.id;
+      const videoShareId = req.params.id;
+      const videoShare = await prisma.getInstance().videoShare.findFirst({
+        where: {
+          id: videoShareId,
+        },
+        include: {
+          upvoteUsers: {
+            where: {
+              id: userId,
+            },
+            select: {
+              id: true,
+            },
+          },
+          downvoteUsers: {
+            where: {
+              id: userId,
+            },
+            select: {
+              id: true,
+            },
+          },
+        },
+      });
+
+      if (!videoShare) {
+        return HttpError(res, {
+          status: 500,
+          message: "Video does not exists",
+        });
+      }
+
+      let isVoted = false;
+      let vote: "up" | "down" = "up";
+      if (videoShare.upvoteUsers && videoShare.upvoteUsers.length > 0) {
+        isVoted = true;
+      }
+      if (videoShare.downvoteUsers && videoShare.downvoteUsers.length > 0) {
+        isVoted = true;
+        vote = "down";
+      }
+
+      //Send vote to rabbit mq channel
+      const channel = await RabbitMQSender.getInstance();
+
+      channel.sendToQueue(
+        QUEUE.VIDEO_SERVICE.VOTE,
+        Buffer.from(
+          JSON.stringify({
+            isVoted,
+            vote,
+            userId,
+            videoShareId,
+          } as VideoServiceConsumerData)
+        )
+      );
+      return HttpSuccess(req, res, {
+        message: "Vote video success",
+      });
+    } catch (err) {
+      return HttpError(res, {
+        status: 500,
+        message: err,
+      });
+    }
+  }
+
   async getPublicVideos(
     req: ConvertRequest<
       unknown,
@@ -62,7 +141,8 @@ export class VideoShareController {
     res: Response
   ) {
     try {
-      const limit = +req.query.limit ?? 5;
+      const limit = +(req.query.limit ?? 5);
+      console.log(limit);
       const isAuth = req.user.isAuth;
       const cursor = req.query.cursor ?? "";
       const cursorObj = cursor === "" ? undefined : { id: cursor };
@@ -131,21 +211,24 @@ export class VideoShareController {
           if (isAuth) {
             if (item.sharedBy.id == req.user.id) {
               item.isOwner = true;
-            } else {
-              if (item.upvoteUsers && item.upvoteUsers.length > 0) {
-                item.isVoteUp = true;
-              }
-
-              if (item.downvoteUsers && item.upvoteUsers.length > 0) {
-                item.isVoteDown = true;
-              }
-
-              item.isVoted = item.isVoteUp || item.isVoteDown;
             }
+
+            if (item.upvoteUsers && item.upvoteUsers.length > 0) {
+              item.isVoteUp = true;
+            }
+
+            if (item.downvoteUsers && item.downvoteUsers.length > 0) {
+              item.isVoteDown = true;
+            }
+
+            item.isVoted = item.isVoteUp || item.isVoteDown;
           }
           item.thumbnails = JSON.parse(
             item.thumbnailUrls
           ) as YoutubeStatistic["snippet"]["thumbnails"];
+          // Hide user vote
+          item.downvoteUsers = [];
+          item.upvoteUsers = [];
           return item;
         }
       );

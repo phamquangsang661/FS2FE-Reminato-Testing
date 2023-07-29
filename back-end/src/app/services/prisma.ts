@@ -2,15 +2,18 @@ import { PrismaClient } from "@prisma/client";
 import Logger from "@utils/logger";
 
 class Prisma {
-  private static instance = null;
+  private static instance: PrismaClient = null;
   public static getInstance() {
-    if (Prisma.instance == null) {
-      Prisma.instance = new PrismaClient();
+    if (this.instance == null) {
+      this.instance = new PrismaClient();
       if (process.env.NODE_ENV == "DEVELOPMENT") {
         Logger.info("INIT", "Prisma service");
       }
     }
     return Prisma.instance as PrismaClient;
+  }
+  public static close() {
+    this.instance.$disconnect();
   }
 }
 
