@@ -12,7 +12,7 @@ export const getPublicVideoSharingSchema = z.object({
   query: z
     .object({
       cursor: z.string().nullish(),
-      limit: z.number().nullish(),
+      limit: z.string().nullish(),
     })
     .nullish(),
 });

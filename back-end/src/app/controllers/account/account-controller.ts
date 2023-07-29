@@ -5,7 +5,6 @@ import { ConvertRequest, GetSchemaInfer } from "src/types/convert";
 import { signInSchema } from "./account-controller-schema";
 import { HttpError, HttpSuccess } from "@utils/http";
 import { signToken } from "@utils/utils";
-import dayjs from "dayjs";
 import { Str } from "@supercharge/strings";
 
 const DEFAULT_TIME_EXPIRED = 60 * 60 * 1000; //60 min;

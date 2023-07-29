@@ -10,15 +10,19 @@ const router = Router();
 const videoShareController = new VideoShareController();
 
 router.post(
-  "/share",
-  auth.authenticate("jwt"),
+  "/sharing",
+  auth.authenticate("jwt", {
+    session: false,
+  }),
   validate(sharingVideoSchema),
   videoShareController.sharingVideo
 );
 
 router.get(
   "/",
-  auth.authenticate("auth_not_required"),
+  auth.authenticate("auth_not_required", {
+    session: false,
+  }),
   validate(getPublicVideoSharingSchema),
   videoShareController.getPublicVideos
 );

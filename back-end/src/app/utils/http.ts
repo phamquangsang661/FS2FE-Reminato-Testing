@@ -8,10 +8,16 @@ function HttpError(
   res: Response,
   ctx: { status: number; message: string; url?: string }
 ) {
-  Logger.error(ctx.url ?? "API ERROR", ctx.message);
-  return res.status(ctx.status).json({
-    message: ctx.message,
-  });
+  try {
+    Logger.error(ctx.url ?? "API ERROR", ctx.message);
+    return res.status(ctx.status).json({
+      message: ctx.message,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: err,
+    });
+  }
 }
 util.inherits(Error, HttpError);
 
@@ -21,11 +27,14 @@ function HttpSuccess<T = any, R extends ConvertRequest = Request>(
   res: Response,
   ctx: { data?: T; message: string; [key: string]: any }
 ) {
-  Logger.custom(chalk.bgGreenBright.white.bold, "SUCCESS", req.url);
-  return res.status(200).json({
-    message: ctx.message,
-    ...(ctx.data ? { data: ctx.data } : {}),
-  });
+  try {
+    Logger.custom(chalk.bgGreenBright.white.bold, "SUCCESS", req.url);
+    return res.status(200).json(ctx);
+  } catch (err) {
+    return res.status(500).json({
+      message: err,
+    });
+  }
 }
 
 export { HttpError, HttpSuccess };

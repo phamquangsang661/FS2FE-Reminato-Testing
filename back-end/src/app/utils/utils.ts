@@ -20,3 +20,4 @@ export const isNullable = <T>(data: T) => {
   if (data == null || data == undefined) return true;
   return false;
 };
+

@@ -31,7 +31,7 @@ export class VideoShareController {
               },
             },
             videoId: detail.id,
-            thumbnailUrls: detail.snippet.thumbnails.toString(),
+            thumbnailUrls: JSON.stringify(detail.snippet.thumbnails),
           },
         });
       } else {
@@ -62,7 +62,7 @@ export class VideoShareController {
     res: Response
   ) {
     try {
-      const limit = req.query.limit ?? 5;
+      const limit = +req.query.limit ?? 5;
       const isAuth = req.user.isAuth;
       const cursor = req.query.cursor ?? "";
       const cursorObj = cursor === "" ? undefined : { id: cursor };
@@ -117,6 +117,7 @@ export class VideoShareController {
         isVoteUp: boolean;
         isVoted: boolean;
         isVoteDown: boolean;
+        thumbnails: YoutubeStatistic["snippet"]["thumbnails"];
       };
       const convertVideoSharing: ConvertVideoSharing[] = videoSharing.map(
         (video) => {
@@ -125,6 +126,7 @@ export class VideoShareController {
             isVoteUp: false,
             isVoted: false,
             isVoteDown: false,
+            thumbnails: {},
           });
           if (isAuth) {
             if (item.sharedBy.id == req.user.id) {
@@ -141,13 +143,20 @@ export class VideoShareController {
               item.isVoted = item.isVoteUp || item.isVoteDown;
             }
           }
+          item.thumbnails = JSON.parse(
+            item.thumbnailUrls
+          ) as YoutubeStatistic["snippet"]["thumbnails"];
           return item;
         }
       );
+
       return HttpSuccess(req, res, {
         data: convertVideoSharing,
         message: "Success",
-        cursor: nextCursor,
+        pagination: {
+          cursor: nextCursor ?? "",
+          isEnd: nextCursor == undefined,
+        },
       });
     } catch (err) {
       return HttpError(res, {

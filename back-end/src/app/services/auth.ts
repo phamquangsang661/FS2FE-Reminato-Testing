@@ -54,22 +54,17 @@ export class AuthNotRequiredStrategy extends passport.Strategy {
   ) {
     const token = cookieExtractor(req);
     let user: UserDataAuth = null;
-    const decode = decodeAndVerifyToken(token) as UserDataAuth;
-    if (decode != undefined) {
-      user = decode;
-      this.success(
-        decode &&
-          ({
-            isAuth: true,
-          } as UserDataAuth)
-      );
+    if (token && token != "") {
+      const decode = decodeAndVerifyToken(token) as UserDataAuth;
+      if (decode != undefined) {
+        user = decode;
+      }
     }
 
-    this.success(
-      user &&
-        ({
-          isAuth: !isNullable(user),
-        } as UserDataAuth)
+    return this.success(
+      Object.assign(user ?? {}, {
+        isAuth: !isNullable(user),
+      } as UserDataAuth)
     );
   }
 }

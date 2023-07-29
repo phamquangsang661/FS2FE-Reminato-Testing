@@ -2,19 +2,6 @@ import { isNullable } from "@utils/utils";
 import _ from "lodash";
 import fetch from "node-fetch";
 
-type YoutubeStatistic = {
-  id: string;
-  snippet: {
-    title: string;
-    description: string;
-    thumbnails: Obj<{
-      url: string;
-      width: number;
-      height: number;
-    }>;
-  };
-};
-
 export class YoutubeService {
   public static async getYoutubeStatistic(url: string): Promise<{
     complete: boolean;
@@ -22,10 +9,11 @@ export class YoutubeService {
     reason?: string;
   }> {
     try {
-      const urlParams = new URLSearchParams(url);
+      const urlObj = new URL(url);
+      const urlParams = new URLSearchParams(urlObj.search);
       let id = urlParams.get("v");
+
       if (isNullable(id)) {
-        const urlObj = new URL(url);
         urlObj.search = "";
         const splitUrl = urlObj.toString().split("/");
         id = splitUrl[splitUrl.length - 1];
@@ -39,21 +27,23 @@ export class YoutubeService {
       }).toString();
 
       const res = await fetch(
-        `${process.env.YOUTUBE_API_URL}/videos` + queryString
+        `${process.env.YOUTUBE_API_URL}/videos?` + queryString
       );
 
       if (res.ok) {
-        const cv = (await res.json()) as YoutubeStatistic[];
-        if (cv && cv.length > 1) {
+        const cv = ((await res.json())?.items ?? []) as YoutubeStatistic[];
+
+        if (cv && cv.length > 0) {
           const result = cv[0];
+            console.log(result.snippet.thumbnails)
           if (
             result?.snippet?.title &&
             result?.snippet?.description &&
-            _.isArray(result.snippet.thumbnails)
+            result.snippet?.thumbnails
           ) {
             return {
               complete: true,
-              data: cv[0],
+              data: result,
             };
           }
         }
