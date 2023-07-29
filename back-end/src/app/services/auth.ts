@@ -47,7 +47,7 @@ type UserDataAuth = Omit<User, "password" | "refreshToken"> & {
 };
 
 export class AuthNotRequiredStrategy extends passport.Strategy {
-  name?: string = "AuthNotRequired";
+  name?: string = "auth_not_required";
   authenticate(
     this: passport.StrategyCreated<this, this & passport.StrategyCreatedStatic>,
     req: Request
