@@ -21,12 +21,13 @@ model VideoShare {
     id            String   @id @default(cuid())
     title         String
     description   String
-    url           String
+    videoId       String
+    thumbnailUrls String //Sql lite not support scale list or Json
     upvote        Int      @default(0)
     upvoteUsers   User[]   @relation("upvote_user")
     downvote      Int      @default(0)
     downvoteUsers User[]   @relation("updown_user")
-    sharedTime    DateTime
+    sharedTime    DateTime @default(now())
     sharedBy      User     @relation(fields: [sharedById], references: [id])
     sharedById    String
 }

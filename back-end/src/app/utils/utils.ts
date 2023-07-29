@@ -15,3 +15,8 @@ export const decodeAndVerifyToken = (token: string) => {
     ignoreExpiration: true,
   });
 };
+
+export const isNullable = <T>(data: T) => {
+  if (data == null || data == undefined) return true;
+  return false;
+};

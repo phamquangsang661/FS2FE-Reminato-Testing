@@ -8,7 +8,6 @@ import dayjs from "dayjs";
 export class VerifyController {
   async verifyToken(req: Request, res: Response) {
     try {
-      console.log(req.cookies);
       const decode = decodeAndVerifyToken(req.cookies["jwt"]) as User;
       if (decode == undefined) {
         res.clearCookie("jwt");
