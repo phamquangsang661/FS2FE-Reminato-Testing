@@ -6,7 +6,7 @@ import { ConvertRequest } from "src/types/convert";
 
 function HttpError(
   res: Response,
-  ctx: { status: number; message: string; url?: string }
+  ctx: { status: number; message: string | any; url?: string }
 ) {
   try {
     Logger.error(ctx.url ?? "API ERROR", ctx.message);
