@@ -4,6 +4,8 @@ import { ModalMobileLogin } from "../modal/modal-mobile-login"
 import { usePopup } from "@hooks"
 import { Link } from "react-router-dom"
 import { HeaderAuthInfo } from "./header-auth-info"
+import { videoStore } from "@stores/video-store"
+import { useCallback } from "react"
 
 
 export interface Header {
@@ -12,6 +14,16 @@ export interface Header {
 export function Header({ className = "" }: Header) {
 
     const popupModalLoginHook = usePopup();
+    const { fetchVideo } = videoStore();
+
+    const refreshVideo = useCallback(() => {
+        fetchVideo()
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    }, [])
+
     return <nav className={` border-b-[3px] bg-white sticky top-0 border-b-red-600 flex flex-row justify-between items-center
     py-3 px-5 md:px-10 w-[90%]
     ${className}`}>
@@ -30,9 +42,10 @@ export function Header({ className = "" }: Header) {
             <ModalMobileLogin {...popupModalLoginHook} className="!block md:!hidden" />
             <FormHeaderLogin className="!hidden md:!block" />
             {/* Refresh feed */}
-            <Popup content='Refresh your feed' trigger={<Button className="!bg-youtube-primary hover:grayscale-[20%] shadow-md" icon >
-                <Icon name="refresh" className=" text-white" />
-            </Button>
+            <Popup content='Refresh your feed' trigger={
+                <Button onClick={refreshVideo} className="!bg-youtube-primary hover:grayscale-[20%] shadow-md" icon >
+                    <Icon name="refresh" className=" text-white" />
+                </Button>
             } />
         </div>
     </nav>

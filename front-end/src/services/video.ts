@@ -21,7 +21,6 @@ type VideoGetVideos = {
 export async function videoGetVideos(ctx: VideoGetVideos) {
     const urlParams = new URLSearchParams(ctx.query);
     [...urlParams.entries()].forEach(([key, value]) => {
-        console.log(key,value)
         if (!value || value==undefined || value=="undefined") {
             urlParams.delete(key);
         }

@@ -31,7 +31,6 @@ export const authStore = create<AuthStore>((set, get) => ({
             state.isCompleted = true;
       
         } catch(err) {
-            console.log(err)
             state.isAuth = false;
             state.isErrored = true;
             state.isCompleted = false;

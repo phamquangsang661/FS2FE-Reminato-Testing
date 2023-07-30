@@ -20,15 +20,15 @@ export function VideoItem({ videoInfo, className = "" }: VideoItem) {
         }}  videoId={videoInfo.videoId}  />
         <div className=" gap-1 w-[320px] sm:w-[400px]">
             <h1 className="font-bold text-[22px] font-primary  text-youtube-primary  text-eclipse-2-line">{videoInfo.title}</h1>
-            <p className="font-primary text-[20px]">Shared by: {videoInfo.sharedBy.email}</p>
+            <p className="font-primary text-[20px]">Shared by: <span className="font-primary font-bold">{videoInfo.sharedBy.email}</span></p>
             <div className="flex flex-row gap-4 py-1">
                 <p className="flex row gap-2 justify-center items-center">
                     <span className=" font-primary  font-bold  text-[20px]">{videoInfo.upvote}</span>
-                    <Icon className="!outline-none " name="thumbs up outline" size="large" />
+                    <Icon className="!outline-none hover:scale-[1.2] transition-all cursor-pointer " name="thumbs up outline" size="large" />
                 </p>
                 <p className="flex row gap-2 justify-center items-center font-primary  font-bold">
                     <span className=" font-primary  font-bold  text-[20px]">{videoInfo.downvote}</span>
-                    <Icon className="!outline-none" name="thumbs down outline" size="large" />
+                    <Icon className="!outline-none hover:scale-[1.2] transition-all cursor-pointer" name="thumbs down outline" size="large" />
                 </p>
             </div>
             <div className="h-full">
