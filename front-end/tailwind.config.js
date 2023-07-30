@@ -5,7 +5,17 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors:{
+        youtube:{
+          primary:"#EA3322",
+          secondary:"#0F0F0F"
+        }
+      },
+      fontFamily: {
+        primary: ["Montserrat", "Roboto", "sans-serif"],
+      },
+    },
   },
   plugins: [],
 }
