@@ -21,9 +21,9 @@ export function HeaderAuthInfo({ className = "" }: HeaderAuthInfo) {
         <div className="hidden md:flex flex-row gap-3 justify-center items-center">
             <p>Welcome to <span className="font-bold first-letter:uppercase">{user?.email}</span></p>
             <Link to="/video/sharing">
-                <ButtonPrimary>Share a movie</ButtonPrimary>
+                <ButtonPrimary className="!whitespace-nowrap">Share a movie</ButtonPrimary>
             </Link>
-            <ButtonPrimary onClick={logoutToast}>Logout</ButtonPrimary>
+            <ButtonPrimary  onClick={logoutToast}>Logout</ButtonPrimary>
         </div>
         {/* For mobile device */}
         <div className="flex flex-row gap-2 md:hidden">

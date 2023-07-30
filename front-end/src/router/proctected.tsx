@@ -7,7 +7,7 @@ export interface ProtectedRoute {
     children: ReactNode
 }
 export function ProtectedRoute({ children }: ProtectedRoute) {
-    const { isAuth, isCompleted } = authStore()
+    const { isAuth } = authStore();
     if (!isAuth ) {
         return <Navigate to="/" replace />;
     }
