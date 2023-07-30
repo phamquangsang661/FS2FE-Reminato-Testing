@@ -69,7 +69,7 @@ export class VideoShareController {
 
   async voteVideo(
     req: ConvertRequest<
-      unknown,
+      GetSchemaInfer<typeof voteVideoSchema>["body"],
       GetSchemaInfer<typeof voteVideoSchema>["params"]
     >,
     res: Response
@@ -109,7 +109,7 @@ export class VideoShareController {
       }
 
       let isVoted = false;
-      let vote: "up" | "down" = "up";
+      let vote: "up" | "down" = req.body.type;
       if (videoShare.upvoteUsers && videoShare.upvoteUsers.length > 0) {
         isVoted = true;
       }
@@ -117,7 +117,7 @@ export class VideoShareController {
         isVoted = true;
         vote = "down";
       }
-
+      console.log("VOTE TYPE", vote)
       //Send vote to rabbit mq channel
       const channel = await RabbitMQSender.getInstance();
 
@@ -159,6 +159,9 @@ export class VideoShareController {
       const videoSharing = await prisma.getInstance().videoShare.findMany({
         cursor: cursorObj,
         take: limit + 1,
+        orderBy: {
+          sharedTime: "desc",
+        },
         select: {
           id: true,
           title: true,
@@ -176,23 +179,23 @@ export class VideoShareController {
           thumbnailUrls: true,
           ...(isAuth
             ? {
-                downvoteUsers: {
-                  select: {
-                    id: true,
-                  },
-                  where: {
-                    id: req.user.id,
-                  },
+              downvoteUsers: {
+                select: {
+                  id: true,
                 },
-                upvoteUsers: {
-                  select: {
-                    id: true,
-                  },
-                  where: {
-                    id: req.user.id,
-                  },
+                where: {
+                  id: req.user.id,
                 },
-              }
+              },
+              upvoteUsers: {
+                select: {
+                  id: true,
+                },
+                where: {
+                  id: req.user.id,
+                },
+              },
+            }
             : {}),
         },
       });
@@ -237,8 +240,8 @@ export class VideoShareController {
             item.thumbnailUrls
           ) as YoutubeStatistic["snippet"]["thumbnails"];
           // Hide user vote
-          item.downvoteUsers = [];
-          item.upvoteUsers = [];
+          // item.downvoteUsers = [];
+          // item.upvoteUsers = [];
           return item;
         }
       );
