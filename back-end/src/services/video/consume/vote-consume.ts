@@ -87,6 +87,6 @@ export default async () => {
         Logger.error("Consume vote service", err);
       }
     },
-    { noAck: true }
+    { noAck: false }
   );
 };

@@ -6,7 +6,11 @@ class RabbitMQSender {
   private static channel: amqp.Channel = null;
   public static async getInstance() {
     if (this.connection == null) {
-      this.connection = await amqp.connect(RABBIT_MQ_HOST);
+      try {
+        this.connection = await amqp.connect(RABBIT_MQ_HOST);
+      } catch (err) {
+        throw new Error("Can't connect to Rabbit MQ")
+      }
     }
     if (this.channel == null) {
       this.channel = await this.connection.createChannel();

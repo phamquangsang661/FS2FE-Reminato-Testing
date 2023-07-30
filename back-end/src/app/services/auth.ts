@@ -4,6 +4,10 @@ import passportJwt from "passport-jwt";
 import { Request } from "express";
 import { decodeAndVerifyToken, isNullable } from "@utils/utils";
 import { User } from "@prisma/client";
+import { Socket } from "socket.io";
+import { DefaultEventsMap } from "socket.io/dist/typed-events";
+import { ExtendedError } from "socket.io/dist/namespace";
+import { parseCookies } from "@utils/cookies";
 
 const JwtStrategy = passportJwt.Strategy;
 
@@ -18,6 +22,9 @@ passport.use(
     {
       jwtFromRequest: cookieExtractor,
       secretOrKey: process.env.JWT_SECRET,
+      jsonWebTokenOptions: {
+        ignoreExpiration: false,
+      },
     },
     async function (jwt_payload, done) {
       try {
@@ -30,6 +37,7 @@ passport.use(
             id: true,
           },
         });
+
         if (user) {
           return done(null, user);
         } else {
@@ -70,4 +78,27 @@ export class AuthNotRequiredStrategy extends passport.Strategy {
 }
 
 passport.use(new AuthNotRequiredStrategy());
+
 export const auth = passport;
+
+export function authSocket(
+  socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>,
+  next: (err?: ExtendedError) => void
+) {
+  try {
+    const req = socket.request;
+    const cookies = parseCookies(req.headers.cookies);
+    const token = cookies["jwt"];
+    socket.data.isAuth = false;
+    if (token && token != "") {
+      const decode = decodeAndVerifyToken(token) as UserDataAuth;
+      if (decode != undefined) {
+        socket.data.isAuth = true;
+      }
+    }
+
+    return next();
+  } catch (err) {
+    return next();
+  }
+}

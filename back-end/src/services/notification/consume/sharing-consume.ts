@@ -54,6 +54,6 @@ export default async (
         Logger.error("Consume notification service", err);
       }
     },
-    { noAck: false }
+    { noAck : false }
   );
 };

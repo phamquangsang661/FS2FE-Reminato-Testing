@@ -5,8 +5,7 @@ import init from "./init";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
 import logger from "@utils/logger";
-import cors from "cors";
-import Prisma from "@services/prisma";
+import { auth, authSocket } from "@services/auth";
 dotenv.config();
 
 const SOCKET_SERVER_OPTION = {
@@ -24,16 +23,22 @@ const NOTIFICATION_SOCKET_PORT = process.env.NOTIFICATION_SOCKET_PORT ?? 3555;
 
   const socketApp: Application = express();
   const server = http.createServer(socketApp);
+
   const io = new Server(server, {
     ...SOCKET_SERVER_OPTION,
   });
+
+  //Wrap auth session
+
+  io.use((socket, next) => {
+    return authSocket(socket, next);
+  });
+
   const sharing = sharingConsume;
 
   io.on("connection", (socket) => {
+    if (!socket.data.isAuth) socket.disconnect();
     sharing(io);
-    socket.on("disconnect", async () => {
-      await close();
-    });
   });
 
   server.listen(NOTIFICATION_SOCKET_PORT, function () {
