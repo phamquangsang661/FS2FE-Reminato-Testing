@@ -14,7 +14,6 @@ export function ModalMobileLogin({
     isOpen,
     onClose = () => { },
     onOpen = () => { } }: ModalMobileLogin) {
-
     const formik = useFormik({
         initialValues: {},
         onSubmit: () => {

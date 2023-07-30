@@ -5,7 +5,7 @@ interface FormViewInterface {
     children?: ReactNode;
     className?: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    formik: FormikContextType<any>;
+    formik: FormikContextType<any>
 }
 export const FormView = ({
     className = '',
@@ -20,7 +20,9 @@ export const FormView = ({
                 onSubmit={formik.handleSubmit}
                 {...FormProps}
             >
-                <FormikProvider value={formik}>{children}</FormikProvider>
+                <FormikProvider value={formik}>
+                    {children}
+                </FormikProvider>
             </Form >
         </>
 

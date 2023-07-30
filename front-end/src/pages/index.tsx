@@ -23,7 +23,7 @@ export function Home() {
                     email: "phamquangsang661@gmail.com"
                 },
                 sharedById: "abcdefg",
-                thumbnails: {},
+                thumbnails: {} as any,
                 description: `Ca Sĩ Hà Anh Tuấn
                 Bài Hát :Tháng Tư Là Lời Nối Dối Của Em.
                 Hãy “ Subscribe” theo dõi kênh Ca Sĩ Hà Anh Tuấn để có cái nhìn cận cảnh hơn về những cống hiến trong âm nhạc của Ca Sĩ Hà Anh Tuấn   nhé.
@@ -59,7 +59,7 @@ export function Home() {
                     email: "phamquangsang661@gmail.com"
                 },
                 sharedById: "abcdefg",
-                thumbnails: {},
+                thumbnails: {} as any,
                 description: `Ca Sĩ Hà Anh Tuấn
                 Bài Hát :Tháng Tư Là Lời Nối Dối Của Em.
                 Hãy “ Subscribe” theo dõi kênh Ca Sĩ Hà Anh Tuấn để có cái nhìn cận cảnh hơn về những cống hiến trong âm nhạc của Ca Sĩ Hà Anh Tuấn   nhé.

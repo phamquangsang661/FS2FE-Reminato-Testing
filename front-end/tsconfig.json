@@ -17,6 +17,21 @@
       "@components": [
         "./src/components/index"
       ],
+      "@utils/*": [
+        "./src/libs/utils/*"
+      ],
+      "@stores/*": [
+        "./src/libs/stores/*"
+      ],
+      "@hooks": [
+        "./src/libs/hooks/index"
+      ],
+      "@services/*": [
+        "./src/services/*"
+      ],
+      "@validations/*": [
+        "./src/validations/*"
+      ],
     },
     /* Bundler mode */
     "moduleResolution": "bundler",
