@@ -1,9 +1,10 @@
-type NotifyServiceConsume={
-    id:string;
+type NotifyServiceConsume = {
+    id: string;
     sharedBy: {
-        email:string;
+        id: string;
+        email: string;
     },
-    thumbnailUrls: VideoShareThumbnailsModelType;
+    thumbnails: VideoShareThumbnailsModelType;
     title: string;
     description: string;
     sharedTime: string;

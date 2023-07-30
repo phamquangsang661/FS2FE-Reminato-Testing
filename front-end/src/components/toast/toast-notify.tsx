@@ -10,14 +10,14 @@ export function ToastNotify({ className = "", t, info }: ToastNotify) {
 
     return <div
         className={`${t.visible ? 'animate-enter' : 'animate-leave'
-            } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 ${className}`}
+            } max-w-[500px] w-full bg-white shadow-lg rounded-lg pointer-events-auto flex flex-col sm:flex-row ring-1 ring-black ring-opacity-5 ${className}`}
     >
-        <div className="flex-1 w-0 p-4">
+        <div className="w-full p-4">
             <div className="flex items-start">
                 <div className="flex-shrink-0 pt-0.5">
                     <img
                         className="h-20 w-20 "
-                        src={info?.thumbnailUrls?.["default"]?.url}
+                        src={info?.thumbnails?.["default"]?.url}
                         alt=""
                     />
                 </div>
@@ -31,11 +31,11 @@ export function ToastNotify({ className = "", t, info }: ToastNotify) {
                 </div>
             </div>
         </div>
-        <div className="flex flex-row border-gray-200">
+        <div className="flex flex-col sm:flex-row  border-gray-200 ">
             <a
                 target="_blank"
                 href={`https://youtube.com/watch?v=${info?.id ?? "Unknown"}`}
-                className="w-full  p-4 flex items-center justify-center text-sm font-medium  
+                className="w-full  p-4 flex items-center justify-center text-md font-medium  
                 bg-youtube-primary text-white font-primary  hover:shadow-inner hover:!text-white hover:grayscale-[20%]">
                 Watch
             </a>
@@ -43,7 +43,7 @@ export function ToastNotify({ className = "", t, info }: ToastNotify) {
                 onClick={() => toast.dismiss(t.id)}
                 className="w-full border border-transparent 
                 rounded-none rounded-r-lg p-4 flex items-center 
-                justify-center text-sm font-medium 
+                justify-center text-md  font-medium 
                 font-primary
                 hover:opacity-[50%]
                 "
