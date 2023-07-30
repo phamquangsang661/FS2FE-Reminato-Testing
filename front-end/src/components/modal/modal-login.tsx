@@ -8,19 +8,14 @@ import { getError } from "@utils/error";
 import { useFormikErrorSubscribe } from "@hooks";
 import { signInValidation } from "@validations/auth";
 
-export interface ModalMobileLogin {
-    isOpen?: boolean;
-    onClose?: () => void;
-    onOpen?: () => void;
+export interface ModalLogin {
     className?: string
 }
 
-export function ModalMobileLogin({
+export function ModalLogin({
     className = "",
-    isOpen,
-    onClose = () => { },
-    onOpen = () => { } }: ModalMobileLogin) {
-    const { isAuth, setAuth } = authStore();
+}: ModalLogin) {
+    const { isAuth, setAuth, isOpen, onOpen, onClose } = authStore();
 
     const formik = useFormik({
         initialValues: {
@@ -40,7 +35,7 @@ export function ModalMobileLogin({
                     password: ""
                 })
             } catch (err) {
-        
+
                 toast.error(getError(err))
             }
         }
@@ -53,12 +48,13 @@ export function ModalMobileLogin({
             onOpen={onOpen}
             onClose={onClose}
             open={isOpen}
+            className="!max-w-[400px]"
             trigger={<Button type="button" className="!bg-youtube-primary hover:grayscale-[20%] !shadow-lg" icon >
                 <Icon size="large" className="text-white" name='meh' />
             </Button>}
         >
             <Modal.Header>Hi there!</Modal.Header>
-            <Modal.Content className="!flex justify-center gap-2 items-center flex-col px-5">
+            <Modal.Content className="!flex justify-center gap-2 items-center flex-col px-5 ">
                 <Input
                     value={formik.values.email}
                     className="font-primary w-full"

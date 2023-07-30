@@ -1,7 +1,6 @@
 import { Button, Icon, Popup } from "semantic-ui-react"
 import { FormHeaderLogin } from "../form"
-import { ModalMobileLogin } from "../modal/modal-mobile-login"
-import { usePopup } from "@hooks"
+import { ModalLogin } from "../modal/modal-login"
 import { Link } from "react-router-dom"
 import { HeaderAuthInfo } from "./header-auth-info"
 import { videoStore } from "@stores/video-store"
@@ -13,7 +12,6 @@ export interface Header {
 }
 export function Header({ className = "" }: Header) {
 
-    const popupModalLoginHook = usePopup();
     const { fetchVideo } = videoStore();
 
     const refreshVideo = useCallback(() => {
@@ -39,7 +37,7 @@ export function Header({ className = "" }: Header) {
             <HeaderAuthInfo />
             {/* Not Auth */}
             {/* Login */}
-            <ModalMobileLogin {...popupModalLoginHook} className="!block md:!hidden" />
+            <ModalLogin  className="!block md:!hidden" />
             <FormHeaderLogin className="!hidden md:!block" />
             {/* Refresh feed */}
             <Popup content='Refresh your feed' trigger={
