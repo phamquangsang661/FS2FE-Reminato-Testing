@@ -216,7 +216,7 @@ export class VideoShareController {
             isVoteUp: false,
             isVoted: false,
             isVoteDown: false,
-            thumbnails: {},
+            thumbnails: {} as any,
           });
           if (isAuth) {
             if (item.sharedBy.id == req.user.id) {

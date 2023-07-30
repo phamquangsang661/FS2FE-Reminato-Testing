@@ -24,6 +24,7 @@ export default async (
               id: content.videoShareId,
             },
             select: {
+              id: true,
               sharedBy: {
                 select: {
                   email: true,
@@ -54,6 +55,6 @@ export default async (
         Logger.error("Consume notification service", err);
       }
     },
-    { noAck : false }
+    { noAck: false }
   );
 };
