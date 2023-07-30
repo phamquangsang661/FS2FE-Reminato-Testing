@@ -65,7 +65,7 @@ export const authStore = create<AuthStore>((set, get) => ({
             ...state,
             user: null,
             isAuth: false,
-            isDone:false,
+            isDone:true,
             isLoading: false,
             isCompleted: false,
             isErrored: false
