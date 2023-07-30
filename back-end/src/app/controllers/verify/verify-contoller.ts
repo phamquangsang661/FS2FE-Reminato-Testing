@@ -15,7 +15,7 @@ export class VerifyController {
         res.clearCookie("jwt");
         return HttpError(res, {
           status: 500,
-          message: "Token is not existed or expired",
+          message: "A. Token is not existed or expired",
         });
       }
       let refreshToken = req.cookies["rs"] as string;
@@ -30,7 +30,7 @@ export class VerifyController {
         res.clearCookie("jwt");
         return HttpError(res, {
           status: 500,
-          message: "Token is not existed or expired",
+          message: "B. Token is not existed or expired",
         });
       }
 
@@ -55,19 +55,16 @@ export class VerifyController {
           res.cookie("jwt", token, {
             maxAge: +process.env.JWT_EXPIRED_TIME ?? DEFAULT_TIME_EXPIRED,
             httpOnly: true,
+            sameSite: "none",
+            secure: true,
           });
           res.cookie("rs", refreshToken, {
             maxAge: +process.env.JWT_EXPIRED_TIME ?? DEFAULT_TIME_EXPIRED,
             httpOnly: true,
+            sameSite: "none",
+            secure: true,
           });
-        } else {
-          res.clearCookie("jwt");
-          res.clearCookie("rs");
-          return HttpError(res, {
-            status: 500,
-            message: "Token is not existed or expired",
-          });
-        }
+        } 
       }
 
       return HttpSuccess(req, res, {

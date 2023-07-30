@@ -22,6 +22,7 @@ export class AccountController {
         select: {
           password: true,
           id: true,
+          email: true,
         },
       });
 
@@ -66,17 +67,42 @@ export class AccountController {
       res.cookie("jwt", token, {
         maxAge: +process.env.JWT_EXPIRED_TIME ?? DEFAULT_TIME_EXPIRED,
         httpOnly: true,
+        sameSite: "none",
+        secure: true,
       });
       res.cookie("rs", refreshToken, {
         maxAge: +process.env.JWT_EXPIRED_TIME ?? DEFAULT_TIME_EXPIRED,
         httpOnly: true,
+        sameSite: "none",
+        secure: true,
       });
 
       return HttpSuccess(req, res, {
         data: {
           access_token: token,
           refresh_token: refreshToken,
+          user: {
+            email: user.email,
+            id: user.id,
+          },
         },
+        message: "Success",
+      });
+    } catch (err) {
+      return HttpError(res, {
+        status: 500,
+        message: err?.message ?? "Internal Server Error",
+      });
+    }
+  }
+  async logout(
+    req: ConvertRequest<GetSchemaInfer<typeof signInSchema>["body"]>,
+    res: Response
+  ) {
+    try {
+      res.clearCookie("jwt");
+      res.clearCookie("rs");
+      return HttpSuccess(req, res, {
         message: "Success",
       });
     } catch (err) {
