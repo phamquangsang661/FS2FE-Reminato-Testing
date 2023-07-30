@@ -3,7 +3,6 @@ import { HttpError, HttpSuccess } from "@utils/http";
 import { decodeAndVerifyToken, signToken } from "@utils/utils";
 import prisma from "@services/prisma";
 import { User } from "@prisma/client";
-import { Str } from "@supercharge/strings";
 
 const DEFAULT_TIME_EXPIRED = 60 * 60 * 1000; //60 min;
 

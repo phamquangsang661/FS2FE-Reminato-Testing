@@ -23,56 +23,84 @@ export default async () => {
               select: {
                 upvote: true,
                 downvote: true,
+                _count: {
+                  // For testing to get real number
+                  select: {
+                    upvoteUsers: true,
+                    downvoteUsers: true
+                  }
+                }
               },
             });
 
             if (!videoShare) {
               throw new Error("Video not exist");
             }
+            const upVoteCount = videoShare._count.upvoteUsers;
+            const downVoteCount = videoShare._count.downvoteUsers;
+
+            const disconnectVoteQuery = {
+              upvoteUsers: {
+                disconnect: {
+                  id: content.userId,
+                },
+              },
+              downvoteUsers: {
+                disconnect: {
+                  id: content.userId,
+                },
+              },
+            }
+
+
 
             await prisma.videoShare.update({
               where: {
                 id: content.videoShareId,
               },
               data: {
-                ...(content.isVoted
-                  ? {
+                ...(
+                  content.isVoted
+                    // case voted before
+                    ? {
                       ...(content.vote == "up"
                         ? {
-                            upvote: videoShare.upvote - 1,
-                            upvoteUsers: {
-                              disconnect: {
-                                id: content.userId,
-                              },
-                            },
-                          }
+                          upvote: upVoteCount - 1,
+                        }
                         : {
-                            downvote: videoShare.downvote - 1,
-                            downvoteUsers: {
-                              disconnect: {
-                                id: content.userId,
-                              },
-                            },
-                          }),
+                          downvote: downVoteCount - 1,
+                        }),
+                      ...disconnectVoteQuery//Disconnect all connect before, include duplicate
                     }
-                  : {
+                    // case new vote
+                    : {
                       ...(content.vote == "up"
                         ? {
-                            upvote: videoShare.upvote + 1,
-                            upvoteUsers: {
-                              connect: {
-                                id: content.userId,
-                              },
+                          upvote: upVoteCount + 1,
+                          upvoteUsers: {
+                            connect: {
+                              id: content.userId,
                             },
+                          },
+                          downvoteUsers: {
+                            disconnect: {
+                              id: content.userId,
+                            }
                           }
+                        }
                         : {
-                            downvote: videoShare.upvote - 1,
-                            downvoteUsers: {
-                              connect: {
-                                id: content.userId,
-                              },
+                          downvote: downVoteCount + 1,
+                          downvoteUsers: {
+                            connect: {
+                              id: content.userId,
                             },
-                          }),
+                          },
+                          upvoteUsers: {
+                            disconnect: {
+                              id: content.userId,
+                            },
+                          },
+                        }),
                     }),
               },
             });
