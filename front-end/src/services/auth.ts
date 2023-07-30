@@ -19,3 +19,7 @@ export async function authLogout(){
 export async function authVerifyToken(){
     return await api.get(API_URL.AUTH.VERIFY.TOKEN)
 }
+
+export async function authGetMe(){
+    return await api.get(API_URL.AUTH.USER.ME)
+}

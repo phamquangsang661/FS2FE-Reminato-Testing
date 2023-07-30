@@ -1,4 +1,4 @@
-import { authLogout, authVerifyToken } from '@services/auth';
+import { authGetMe, authLogout, authVerifyToken } from '@services/auth';
 import { create } from 'zustand'
 
 type AuthStore = {
@@ -7,8 +7,9 @@ type AuthStore = {
     isCompleted: boolean;
     isErrored: boolean;
     setAuth: (user: UserSimpleInfo) => void;
-    logout: () => Promise<void>
-    refresh: () => Promise<void>
+    logout: () => Promise<void>;
+    refresh: () => Promise<void>;
+    fetchUser: () => Promise<UserSimpleInfo|null>;
 };
 
 export const authStore = create<AuthStore>((set, get) => ({
@@ -20,6 +21,10 @@ export const authStore = create<AuthStore>((set, get) => ({
         const state = { ...get() };
         try {
             await authVerifyToken();
+            // First time
+            if(!state.isAuth){
+                state.user=await state.fetchUser();
+            }
             state.isAuth = true;
             state.isCompleted = true;
         } catch(err) {
@@ -29,6 +34,14 @@ export const authStore = create<AuthStore>((set, get) => ({
             state.isCompleted = false;
         }
         set(state)
+    },
+    fetchUser:async()=>{
+        try{
+            const res= await authGetMe();
+            return res.data.data as UserSimpleInfo
+        }catch{
+            return null
+        }
     },
     setAuth: (user: UserSimpleInfo) => set((state) => {
         return {

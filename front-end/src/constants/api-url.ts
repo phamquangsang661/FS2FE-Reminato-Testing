@@ -4,6 +4,12 @@ export const API_URL={
         LOGOUT:"/account/logout",
         VERIFY:{
             TOKEN:"/verify/token"
+        },
+        USER:{
+            ME:"/account/me"
         }
+    },
+    VIDEO:{
+        SHARE:"/videos/sharing"
     }
 }
