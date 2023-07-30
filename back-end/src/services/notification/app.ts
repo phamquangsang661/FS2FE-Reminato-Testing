@@ -5,14 +5,9 @@ import init from "./init";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
 import logger from "@utils/logger";
-import { auth, authSocket } from "@services/auth";
+import { authSocket } from "@services/auth";
 dotenv.config();
 
-const SOCKET_SERVER_OPTION = {
-  cors: {
-    origin: process.env.WEB_APP_URL ?? "*",
-  },
-};
 const NOTIFICATION_SOCKET_PORT = process.env.NOTIFICATION_SOCKET_PORT ?? 3555;
 
 (async () => {
@@ -24,8 +19,12 @@ const NOTIFICATION_SOCKET_PORT = process.env.NOTIFICATION_SOCKET_PORT ?? 3555;
   const socketApp: Application = express();
   const server = http.createServer(socketApp);
 
+
   const io = new Server(server, {
-    ...SOCKET_SERVER_OPTION,
+    cors: {
+      origin: process.env.WEB_APP_URL ?? true,
+      credentials: true
+    },
   });
 
   //Wrap auth session

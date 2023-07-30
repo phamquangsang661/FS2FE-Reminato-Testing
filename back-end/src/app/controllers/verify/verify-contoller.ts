@@ -36,16 +36,19 @@ export class VerifyController {
       if (refreshToken && refreshToken != "") {
         //Re update the session with refresh token
         if (user.refreshToken == refreshToken) {
+        
           const token = signToken({
             id: user.id,
             email: user.email,
+
           });
 
           res.cookie("jwt", token, {
             maxAge: +process.env.JWT_EXPIRED_TIME ?? DEFAULT_TIME_EXPIRED,
-            httpOnly: true,
             sameSite: "none",
             secure: true,
+            httpOnly:true,
+            path: "/"
           });
         } else {
           res.clearCookie("rs");

@@ -27,6 +27,7 @@ export default async (
               id: true,
               sharedBy: {
                 select: {
+                  id: true,
                   email: true,
                 },
               },
@@ -43,7 +44,13 @@ export default async (
             throw new Error("Video not exist");
           }
 
-          io.emit("new_video_sharing", videoShare);
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (videoShare as any).thumbnails = JSON.parse(
+            videoShare.thumbnailUrls
+          ) as YoutubeStatistic["snippet"]["thumbnails"];
+          videoShare.thumbnailUrls = ""
+
+          io.emit("new_video_sharing", JSON.stringify(videoShare));
 
           Logger.info(
             "Consume notification service",
