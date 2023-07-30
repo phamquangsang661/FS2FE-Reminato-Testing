@@ -66,15 +66,17 @@ export class AccountController {
 
       res.cookie("jwt", token, {
         maxAge: +process.env.JWT_EXPIRED_TIME ?? DEFAULT_TIME_EXPIRED,
-        httpOnly: true,
         sameSite: "none",
         secure: true,
+        httpOnly: true,
+        path: "/"
       });
       res.cookie("rs", refreshToken, {
         maxAge: +process.env.JWT_EXPIRED_TIME ?? DEFAULT_TIME_EXPIRED,
-        httpOnly: true,
         sameSite: "none",
         secure: true,
+        httpOnly: true,
+        path: "/"
       });
 
       return HttpSuccess(req, res, {

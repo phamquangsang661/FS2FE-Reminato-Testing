@@ -117,7 +117,7 @@ export class VideoShareController {
         isVoted = true;
         vote = "down";
       }
-      console.log("VOTE TYPE", vote)
+
       //Send vote to rabbit mq channel
       const channel = await RabbitMQSender.getInstance();
 

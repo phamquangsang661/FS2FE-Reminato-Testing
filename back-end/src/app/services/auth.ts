@@ -87,7 +87,7 @@ export function authSocket(
 ) {
   try {
     const req = socket.request;
-    const cookies = parseCookies(req.headers.cookies);
+    const cookies = parseCookies((req.headers?.cookies) ?? req.headers?.cookie);
     const token = cookies["jwt"];
     socket.data.isAuth = false;
     if (token && token != "") {
