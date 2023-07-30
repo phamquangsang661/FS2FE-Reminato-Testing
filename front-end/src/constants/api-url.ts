@@ -10,6 +10,9 @@ export const API_URL={
         }
     },
     VIDEO:{
-        SHARE:"/videos/sharing"
+        SHARE:"/videos/sharing",
+        VIDEOS:{
+            GETS:"/videos"
+        }
     }
 }

@@ -7,6 +7,7 @@ export * from './form'
 
 /* Video */
 export * from './video/video-item'
+export * from './video/video-items'
 
 /* Rich text render */
 export * from './rich-text/rich-text-render'

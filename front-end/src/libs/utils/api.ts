@@ -9,6 +9,16 @@ const api = axios.create({
     },
 });
 
+export const getCancelTokenSource = () => {
+    return axios.CancelToken.source();
+  };
+  
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const checkCancel = (value: any) => {
+    return axios.isCancel(value);
+};
+  
+
 // Writing interceptor if needed
 
 export default api

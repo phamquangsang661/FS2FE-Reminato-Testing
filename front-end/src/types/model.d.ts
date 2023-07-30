@@ -24,6 +24,7 @@ type VideoShareModelType={
     isVoteDown: boolean;
 }
 
+
 type UserSimpleInfo={
   id:string;
   email:string

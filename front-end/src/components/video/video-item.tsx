@@ -12,14 +12,14 @@ export function VideoItem({ videoInfo, className = "" }: VideoItem) {
             width: 400,
             height: 250,
             loop: 1
-        }} videoId="IOe0tNoUGv8" />
+        }} videoId={videoInfo.videoId} />
         <YouTube className="block sm:hidden " opts={{
             width: 320,
             height: 200,
             loop: 1
-        }} videoId="IOe0tNoUGv8" />
+        }}  videoId={videoInfo.videoId}  />
         <div className=" gap-1 w-[320px] sm:w-[400px]">
-            <h1 className="font-bold text-[22px] font-primary  text-youtube-primary  ">{videoInfo.title}</h1>
+            <h1 className="font-bold text-[22px] font-primary  text-youtube-primary  text-eclipse-2-line">{videoInfo.title}</h1>
             <p className="font-primary text-[20px]">Shared by: {videoInfo.sharedBy.email}</p>
             <div className="flex flex-row gap-4 py-1">
                 <p className="flex row gap-2 justify-center items-center">

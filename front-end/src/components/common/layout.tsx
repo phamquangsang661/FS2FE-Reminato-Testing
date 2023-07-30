@@ -20,6 +20,7 @@ export function Layout({
     mainClassName = "",
     className = "",
     faviconUrl = PAGE_ASSETS.FAVICON_URL }: Layout) {
+
     return <>
         <head>
             <title>{title}</title>
