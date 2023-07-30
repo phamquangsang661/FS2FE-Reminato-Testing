@@ -19,7 +19,7 @@ export function HeaderAuthInfo({ className = "" }: HeaderAuthInfo) {
 
         {/* For desktop device */}
         <div className="hidden md:flex flex-row gap-3 justify-center items-center">
-            <p>Welcom to <span className="font-bold first-letter:uppercase">{user?.email}</span></p>
+            <p>Welcome to <span className="font-bold first-letter:uppercase">{user?.email}</span></p>
             <Link to="/video/sharing">
                 <ButtonPrimary>Share a movie</ButtonPrimary>
             </Link>

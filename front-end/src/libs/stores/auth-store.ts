@@ -4,6 +4,7 @@ import { create } from 'zustand'
 type AuthStore = {
     user: UserSimpleInfo | null;
     isAuth: boolean;
+    isDone:boolean;
     isCompleted: boolean;
     isErrored: boolean;
     setAuth: (user: UserSimpleInfo) => void;
@@ -16,6 +17,7 @@ export const authStore = create<AuthStore>((set, get) => ({
     user: null,
     isAuth: false,
     isCompleted: false,
+    isDone:false,
     isErrored: false,
     refresh: async () => {
         const state = { ...get() };
@@ -27,12 +29,14 @@ export const authStore = create<AuthStore>((set, get) => ({
             }
             state.isAuth = true;
             state.isCompleted = true;
+      
         } catch(err) {
             console.log(err)
             state.isAuth = false;
             state.isErrored = true;
             state.isCompleted = false;
         }
+        state.isDone=true;
         set(state)
     },
     fetchUser:async()=>{
@@ -48,6 +52,7 @@ export const authStore = create<AuthStore>((set, get) => ({
             ...state,
             user,
             isAuth: true,
+            isDone:true,
             isLoading: false,
             isCompleted: true,
             isErrored: false
@@ -60,6 +65,7 @@ export const authStore = create<AuthStore>((set, get) => ({
             ...state,
             user: null,
             isAuth: false,
+            isDone:false,
             isLoading: false,
             isCompleted: false,
             isErrored: false
