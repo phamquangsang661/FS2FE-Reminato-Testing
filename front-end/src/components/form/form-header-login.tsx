@@ -23,11 +23,15 @@ export function FormHeaderLogin({ className = "" }: FormHeaderLogin) {
         onSubmit: async (values) => {
             try {
                 const res = await authSignIn({ data: values });
-                const data = res.data.data
-                setAuth(data.user as UserSimpleInfo)
-                toast.success("Sign in success")
+                const data = res.data.data;
+                setAuth(data.user as UserSimpleInfo);
+                toast.success("Sign in success");
+                formik.setValues({
+                    email: "",
+                    password: ""
+                })
             } catch (err) {
-                console.log(err)
+
                 toast.error(getError(err))
             }
         }
@@ -38,6 +42,7 @@ export function FormHeaderLogin({ className = "" }: FormHeaderLogin) {
     return <FormView className={`${className}`} formik={formik}>
         <div className="flex flex-row gap-2">
             <Input
+                value={formik.values.email}
                 className="font-primary"
                 loading={false}
                 icon='mail'
@@ -48,6 +53,7 @@ export function FormHeaderLogin({ className = "" }: FormHeaderLogin) {
             />
 
             <Input
+                value={formik.values.password}
                 type='password'
                 className="font-primary"
                 loading={false}

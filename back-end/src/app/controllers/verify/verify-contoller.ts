@@ -18,7 +18,7 @@ export class VerifyController {
           message: "A. Token is not existed or expired",
         });
       }
-      let refreshToken = req.cookies["rs"] as string;
+      const refreshToken = req.cookies["rs"] as string;
 
       const user = await prisma.getInstance().user.findFirst({
         where: {
@@ -37,19 +37,9 @@ export class VerifyController {
       if (refreshToken && refreshToken != "") {
         //Re update the session with refresh token
         if (user.refreshToken == refreshToken) {
-          refreshToken = Str.random(50);
           const token = signToken({
             id: user.id,
             email: user.email,
-          });
-
-          await prisma.getInstance().user.update({
-            where: {
-              id: user.id,
-            },
-            data: {
-              refreshToken,
-            },
           });
 
           res.cookie("jwt", token, {
@@ -58,13 +48,9 @@ export class VerifyController {
             sameSite: "none",
             secure: true,
           });
-          res.cookie("rs", refreshToken, {
-            maxAge: +process.env.JWT_EXPIRED_TIME ?? DEFAULT_TIME_EXPIRED,
-            httpOnly: true,
-            sameSite: "none",
-            secure: true,
-          });
-        } 
+        } else {
+          res.clearCookie("rs");
+        }
       }
 
       return HttpSuccess(req, res, {

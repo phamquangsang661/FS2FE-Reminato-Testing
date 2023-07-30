@@ -6,10 +6,15 @@ import {
 
 import { Home } from "@pages/index"
 import { SharingPage } from "@pages/video/sharing";
+import { ProtectedRoute } from "./proctected";
 
 export const routers = createBrowserRouter(createRoutesFromElements(
     <>
         <Route path="/" element={<Home />} />
-        <Route path="/video/sharing" element={<SharingPage />} />
+        <Route path="/video/sharing" element={
+            <ProtectedRoute>
+                <SharingPage />
+            </ProtectedRoute>
+        } />
     </>
 ))

@@ -3,11 +3,14 @@ import { FormHeaderLogin } from "../form"
 import { ModalMobileLogin } from "../modal/modal-mobile-login"
 import { usePopup } from "@hooks"
 import { Link } from "react-router-dom"
+import { HeaderAuthInfo } from "./header-auth-info"
+
 
 export interface Header {
     className?: string
 }
 export function Header({ className = "" }: Header) {
+
     const popupModalLoginHook = usePopup();
     return <nav className={` border-b-[3px] bg-white sticky top-0 border-b-red-600 flex flex-row justify-between items-center
     py-3 px-5 md:px-10 w-[90%]
@@ -20,13 +23,17 @@ export function Header({ className = "" }: Header) {
         </Link>
 
         <div className="flex flex-row gap-1">
-            {/* <HeaderAuthInfo /> */}
+            {/* Auth info*/}
+            <HeaderAuthInfo />
             {/* Not Auth */}
-            <FormHeaderLogin className="!hidden md:!block" />
+            {/* Login */}
             <ModalMobileLogin {...popupModalLoginHook} className="!block md:!hidden" />
+            <FormHeaderLogin className="!hidden md:!block" />
+            {/* Refresh feed */}
             <Popup content='Refresh your feed' trigger={<Button className="!bg-youtube-primary hover:grayscale-[20%] shadow-md" icon >
                 <Icon name="refresh" className=" text-white" />
-            </Button>} />
+            </Button>
+            } />
         </div>
     </nav>
 }
