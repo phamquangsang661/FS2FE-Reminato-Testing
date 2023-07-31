@@ -6,7 +6,7 @@ import api from '@utils/api';
 import { AxiosError } from 'axios';
 
 
-describe('Auth store', () => {
+describe('Libs/store Auth store', () => {
 
     afterEach(() => {
         vi.restoreAllMocks()

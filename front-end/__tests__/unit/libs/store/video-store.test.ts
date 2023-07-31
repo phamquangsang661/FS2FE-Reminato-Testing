@@ -5,7 +5,7 @@ import { fakeVideoData } from '__mocks__/fake/video';
 import { videoStore } from '@stores/video-store';
 
 
-describe('Video store', () => {
+describe('Libs/store Video store', () => {
     afterEach(() => {
         vi.restoreAllMocks()
     })
