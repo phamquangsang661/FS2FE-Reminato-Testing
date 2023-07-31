@@ -7,16 +7,17 @@ export const fakeVideoData = _.range(10).map(() => ({
     "title": faker.lorem.sentence(10),
     "description": faker.lorem.text(),
     "downvote": faker.number.int({
-        min: 0
+        min: 0, max: 100
     }),
     "upvote": faker.number.int({
-        min: 0
+        min: 0, max: 100
     }),
     "sharedTime": faker.date.anytime().toISOString(),
     "sharedBy": {
         "id": faker.string.uuid(),
         "email": faker.internet.email()
     },
+    "sharedById": faker.string.uuid(),
     "videoId": faker.string.uuid(),
     "isOwner": faker.datatype.boolean(),
     "isVoteUp": faker.datatype.boolean(),

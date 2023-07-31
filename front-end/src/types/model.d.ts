@@ -13,7 +13,7 @@ type VideoShareModelType={
     thumbnails: VideoShareThumbnailsModelType;
     upvote: number;
     downvote: number;
-    sharedTime: Date;
+    sharedTime: string;
     sharedById: string;
     sharedBy:{
         email:string

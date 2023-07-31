@@ -41,3 +41,9 @@ type VideoVoteVideo = {
 export async function videoVoteVideo(ctx: VideoVoteVideo) {
     return await api.put(API_URL.VIDEO.VIDEOS.VOTE(ctx.params.id), ctx.body)
 }
+
+export default {
+    videoSharing,
+    videoGetVideos,
+    videoVoteVideo
+}
