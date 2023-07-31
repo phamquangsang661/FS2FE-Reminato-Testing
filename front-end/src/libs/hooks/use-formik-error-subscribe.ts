@@ -7,15 +7,15 @@ export const useFormikErrorSubscribe = <T extends Obj<any>>({
 }: {
   formik: ReturnType<typeof useFormik<T>>;
 }) => {
-  const [isError,setIsError]=useState(false);
+  const [isError, setIsError] = useState(false);
 
   //Set error when submit
   useEffect(() => {
-    if(formik.isSubmitting && Object.keys(formik.errors).length>0  ){
-        setIsError(true)
-        toast.error(formik.errors[Object.keys(formik.errors)[0]]?.toString()??"Unknown")
+    if (Object.keys(formik.errors).length > 0) {
+      setIsError(true)
+      toast.error(formik.errors[Object.keys(formik.errors)[0]]?.toString() ?? "Unknown")
     }
-  }, [formik.isSubmitting,formik.errors]);
+  }, [formik.errors]);
 
 
   //reset submit state when typing any input or valid (Try again)
