@@ -1,15 +1,13 @@
 import { getError } from '@utils/error'
 import api from "@utils/api";
 import { faker } from '@faker-js/faker';
-import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { videoGetVideos, videoSharing, videoVoteVideo } from '@services/video';
 import { fakeVideoData, fakeVideoSharing } from '__mocks__/fake/video';
 
 
 describe('Service auth sign in', () => {
-    beforeAll(() => {
 
-    })
     afterEach(() => {
         vi.restoreAllMocks()
     })

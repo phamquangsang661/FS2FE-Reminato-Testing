@@ -9,11 +9,11 @@ import { useFormikErrorSubscribe } from "@hooks";
 import { signInValidation } from "@validations/auth";
 
 export interface ModalLogin {
-    className?: string
+    className?: string;
 }
 
 export function ModalLogin({
-    className = "",
+    className = ""
 }: ModalLogin) {
     const { isAuth, setAuth, isOpen, onOpen, onClose } = authStore();
 
@@ -27,13 +27,16 @@ export function ModalLogin({
             try {
                 const res = await authSignIn({ data: values });
                 const data = res.data.data;
+                if (data.user == null)
+                    throw new Error("User isn't exist")
                 setAuth(data.user as UserSimpleInfo);
-                toast.success("Sign in success");
+
                 onClose();
                 formik.setValues({
                     email: "",
                     password: ""
-                })
+                });
+                toast.success("Sign in success");
             } catch (err) {
 
                 toast.error(getError(err))
@@ -49,9 +52,11 @@ export function ModalLogin({
             onClose={onClose}
             open={isOpen}
             className="!max-w-[400px]"
-            trigger={<Button type="button" className="!bg-youtube-primary hover:grayscale-[20%] !shadow-lg" icon >
-                <Icon size="large" className="text-white" name='meh' />
-            </Button>}
+            trigger={
+                <Button data-testid="modal-login" type="button" className="!bg-youtube-primary hover:grayscale-[20%] !shadow-lg" icon >
+                    <Icon size="large" className="text-white" name='meh' />
+                </Button>
+            }
         >
             <Modal.Header>Hi there!</Modal.Header>
             <Modal.Content className="!flex justify-center gap-2 items-center flex-col px-5 ">
@@ -77,10 +82,18 @@ export function ModalLogin({
                     iconPosition='left' />
             </Modal.Content>
             <Modal.Actions className="!flex flex-row gap-2 justify-center items-center">
-                <Button type="button" disabled={isError} className="!shadow-md" color='black' onClick={onClose}>
+                <Button
+                    type="button"
+                    className="!shadow-md"
+                    color='black'
+                    onClick={onClose}>
                     Close
                 </Button>
-                <Button onClick={() => formik.submitForm()} type="submit" className="!bg-youtube-primary !text-white  hover:grayscale-[20%] !shadow-md">Login / Register</Button>
+                <Button
+                    disabled={isError}
+                    onClick={() => {
+                        formik.submitForm()
+                    }} type="button" className="!bg-youtube-primary !text-white  hover:grayscale-[20%] !shadow-md">Login / Register</Button>
             </Modal.Actions>
         </Modal>
     </FormView>

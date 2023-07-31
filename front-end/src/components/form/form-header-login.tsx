@@ -63,7 +63,12 @@ export function FormHeaderLogin({ className = "" }: FormHeaderLogin) {
                 onChange={formik.handleChange}
                 iconPosition='left' />
 
-            <Button type="submit" disabled={isError} className="!bg-youtube-primary !shadow-md !text-white  hover:grayscale-[20%]">Login / Register</Button>
+            <Button type="submit"
+                disabled={isError}
+                className="!bg-youtube-primary !shadow-md !text-white  hover:grayscale-[20%]"
+            >
+                Login / Register
+            </Button>
         </div>
     </FormView>
 }

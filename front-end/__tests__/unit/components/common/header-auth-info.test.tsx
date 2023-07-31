@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { mockAuth } from '__mocks__/auth';
-import {  describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { HeaderAuthInfo } from '@components';
 import { fakeUserData } from '__mocks__/fake/user';
 import { BrowserRouter } from 'react-router-dom'
@@ -14,11 +14,16 @@ vi.mock("react-router-dom", async () => ({
 }));
 
 
-describe('Components common header auth info', () => {
+describe('Components/common header auth info', () => {
 
     afterAll(() => {
         vi.restoreAllMocks()
     })
+
+    it("Not Signed-in", async () => {
+        const { container } = render(<HeaderAuthInfo />, { wrapper: BrowserRouter });
+        expect(container).toBeEmptyDOMElement();
+    });
 
     it('Signed-in info', async () => {
         await mockAuth(fakeUserData);
