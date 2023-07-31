@@ -1,7 +1,7 @@
 import { getError } from '@utils/error'
 import api from "@utils/api";
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { authGetMe, authSignIn, authVerifyToken } from '@services/auth';
+import { authGetMe, authLogout, authSignIn, authVerifyToken } from '@services/auth';
 import { fakeCookie, fakeLoginData, fakeUserData } from '__mocks__/fake/user';
 
 
@@ -63,6 +63,22 @@ describe('Service auth sign in', () => {
         try {
             const res = await authVerifyToken();
             expect(res.data?.data).toBe(true)
+        } catch (err) {
+            expect(getError(err)).toBeTypeOf("string")
+        }
+
+    })
+
+    it("Logout", async () => {
+        vi.mocked(api.put).mockResolvedValue({
+            data: {
+                message: "Success",
+            },
+        })
+
+        try {
+            const res = await authLogout();
+            expect(res.data.message).toBe("Success")
         } catch (err) {
             expect(getError(err)).toBeTypeOf("string")
         }

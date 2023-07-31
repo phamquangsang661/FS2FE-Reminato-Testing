@@ -1,5 +1,6 @@
 /* Common */
 export * from './common/layout'
+export * from './common/header-auth-info'
 // export * from './common/header'
 /* Form */
 export * from './form'

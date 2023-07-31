@@ -8,6 +8,10 @@ import { AxiosError } from 'axios';
 
 describe('Auth store', () => {
 
+    afterEach(() => {
+        vi.restoreAllMocks()
+    })
+
     it('Set auth ', async () => {
         const { result } = renderHook(() => authStore());
         act(() => {
@@ -40,14 +44,14 @@ describe('Auth store', () => {
 
     it('Refresh have auth', async () => {
         // Mock refresh verify token
-        vi.mocked(api.get).mockResolvedValue({
+        vi.mocked(api.get).mockResolvedValueOnce({
             data: {
                 data: true,
                 message: "Success",
             },
         })
         // Mock get user me
-        vi.mocked(api.get).mockResolvedValue({
+        vi.mocked(api.get).mockResolvedValueOnce({
             data: {
                 data: fakeUserData,
                 message: "Success",
@@ -90,12 +94,12 @@ describe('Auth store', () => {
         });
     });
 
-    it('Refresh haven`t auth', async () => {
+    it('Logout', async () => {
         // Mock refresh verify token
         vi.mocked(api.put).mockResolvedValue({
             data: {
                 message: "Success",
-            }
+            },
         })
 
         const { result } = renderHook(() => authStore());
@@ -109,7 +113,7 @@ describe('Auth store', () => {
             isAuth: false,
             isCompleted: false,
             isDone: true,
-            user: null
+            user: null,
         });
     });
 

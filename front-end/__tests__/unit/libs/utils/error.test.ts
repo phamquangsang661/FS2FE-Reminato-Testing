@@ -18,7 +18,6 @@ describe('Libs/error getError', () => {
         expect(getError(axiosError)).toBe('This is an AxiosError message');
     });
 
-
     it('Correct error message for regular Error', () => {
         const regularError = new Error('This is a regular error');
         expect(getError(regularError)).toBe('This is a regular error');

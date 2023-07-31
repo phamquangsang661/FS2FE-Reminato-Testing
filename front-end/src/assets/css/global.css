@@ -43,3 +43,7 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.link:hover {
+    color: white;
+}

@@ -3,11 +3,11 @@ import _ from 'lodash'
 export function getError(err: unknown) {
     if (err instanceof AxiosError) {
         return (
-            (!_.isString(err.response?.data?.message))
+            (_.isString(err.response?.data?.message))
                 ?
-                err.response?.data?.message?.message
-                :
                 err.response?.data?.message
+                :
+                err.response?.data?.message?.message
         ) ?? err?.message ?? "Unknown error"
     } else
         if (err instanceof Error) {

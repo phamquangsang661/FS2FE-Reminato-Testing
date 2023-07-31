@@ -1,8 +1,9 @@
 
+import { ReactNode } from "react";
 import { Button, ButtonProps } from "semantic-ui-react";
 
 export interface ButtonPrimary {
-    children: string;
+    children: ReactNode;
     className?: string | JSX.Element;
 }
 export const ButtonPrimary = ({ children, className = "", ...props }: ButtonPrimary & ButtonProps) => {

@@ -20,7 +20,7 @@ describe('Service auth sign in', () => {
             data: fakeVideoData.slice(0, 4),
             pagination: {
                 cursor: fakeVideoData[4].id,
-                limit: 5
+                isEnd: false
             }
         };
 
@@ -49,7 +49,7 @@ describe('Service auth sign in', () => {
             data: fakeVideoData.slice(0, 4),
             pagination: {
                 cursor: fakeVideoData[4].id,
-                limit: +query.limit
+                isEnd: +query.limit
             }
         }
 
