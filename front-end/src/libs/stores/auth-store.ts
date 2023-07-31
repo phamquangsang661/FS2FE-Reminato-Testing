@@ -17,7 +17,7 @@ type AuthStore = {
     onClose: () => void;
 };
 
-export const authStore = create<AuthStore>((set, get) => ({
+export const authStore = create<AuthStore>()((set, get) => ({
     user: null,
     isAuth: false,
     isCompleted: false,
@@ -26,6 +26,7 @@ export const authStore = create<AuthStore>((set, get) => ({
     isOpen: false,
     refresh: async () => {
         const state = { ...get() };
+
         try {
             await authVerifyToken();
             // First time
@@ -34,8 +35,10 @@ export const authStore = create<AuthStore>((set, get) => ({
             }
             state.isAuth = true;
             state.isCompleted = true;
+            state.isErrored = false
 
         } catch (err) {
+            state.user = null
             state.isAuth = false;
             state.isErrored = true;
             state.isCompleted = false;
@@ -57,7 +60,6 @@ export const authStore = create<AuthStore>((set, get) => ({
             user,
             isAuth: true,
             isDone: true,
-            isLoading: false,
             isCompleted: true,
             isErrored: false
         };
@@ -70,7 +72,6 @@ export const authStore = create<AuthStore>((set, get) => ({
             user: null,
             isAuth: false,
             isDone: true,
-            isLoading: false,
             isCompleted: false,
             isErrored: false
         }))

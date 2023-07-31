@@ -13,7 +13,7 @@ type VideoStore = {
     fetchNextPage: () => Promise<void>;
 };
 
-export const videoStore = create<VideoStore>((set, get) => ({
+export const videoStore = create<VideoStore>()((set, get) => ({
     videos: [],
     limit: "5",
     isLoading: true,
