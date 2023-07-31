@@ -4,13 +4,12 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default ({ mode }) => {
   //Get env in vite config
-  process.env = {...process.env, ...loadEnv(mode, process.cwd())};
+  process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
   return defineConfig({
-    plugins: [tsconfigPaths(),react()],
-
-      server: {
-          port: parseInt(process.env.VITE_WEB_APP_PORT),
-      },
+    plugins: [tsconfigPaths(), react()],
+    server: {
+      port: parseInt(process.env.VITE_WEB_APP_PORT),
+    },
   });
 }

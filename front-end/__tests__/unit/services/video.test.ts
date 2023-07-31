@@ -2,10 +2,9 @@ import { getError } from '@utils/error'
 import api from "@utils/api";
 import { faker } from '@faker-js/faker';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
-import { fakeVideoData, fakeVideoSharing } from '../../__mock__/fake/video';
 import { videoGetVideos, videoSharing, videoVoteVideo } from '@services/video';
+import { fakeVideoData, fakeVideoSharing } from '__mocks__/fake/video';
 
-vi.mock("@utils/api")
 
 describe('Service auth sign in', () => {
     beforeAll(() => {

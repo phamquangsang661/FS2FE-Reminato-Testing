@@ -32,6 +32,9 @@
       "@validations/*": [
         "./src/validations/*"
       ],
+      "__mocks__/*":[
+        "./__mocks__/*"
+      ]
     },
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -52,7 +55,9 @@
     ],
   },
   "include": [
-    "src"
+    "src",
+    "__mocks__",
+    "__tests__"
   ],
   "references": [
     {

@@ -2,9 +2,8 @@ import { getError } from '@utils/error'
 import api from "@utils/api";
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { authGetMe, authSignIn, authVerifyToken } from '@services/auth';
-import { fakeCookie, fakeLoginData, fakeUserData } from '../../__mock__/fake/user';
+import { fakeCookie, fakeLoginData, fakeUserData } from '__mocks__/fake/user';
 
-vi.mock("@utils/api")
 
 describe('Service auth sign in', () => {
 
