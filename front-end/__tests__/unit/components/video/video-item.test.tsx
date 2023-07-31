@@ -10,6 +10,11 @@ vi.mock("@services/video")
 
 
 describe("Components/video video item", () => {
+
+    beforeEach(() => {
+        vi.restoreAllMocks()
+    })
+
     it("Contain elements with unsigned-in", async () => {
         const fakeVideoDataDefault = fakeVideoData[0];
         render(<VideoItem videoInfo={fakeVideoDataDefault} />);
@@ -58,6 +63,7 @@ describe("Components/video video item", () => {
         const thumpUp = await screen.findByLabelText("upvote");
         const thumpDown = await screen.findByLabelText("downvote");
 
+        // Mock api
         const mockRequest = vi.mocked(serviceVideo.videoVoteVideo).mockImplementationOnce(() => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             return true as any
