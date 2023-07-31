@@ -26,6 +26,9 @@
       "@hooks": [
         "./src/libs/hooks/index"
       ],
+      "@router/*": [
+        "./src/router/*"
+      ],
       "@services/*": [
         "./src/services/*"
       ],

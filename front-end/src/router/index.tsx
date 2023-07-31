@@ -6,7 +6,7 @@ import {
 
 import { Home } from "@pages/index"
 import { SharingPage } from "@pages/video/sharing";
-import { ProtectedRoute } from "./proctected";
+import { ProtectedRoute } from "./protected";
 
 export const routers = createBrowserRouter(createRoutesFromElements(
     <>
