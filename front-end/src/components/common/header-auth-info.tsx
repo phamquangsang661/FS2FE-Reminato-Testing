@@ -11,9 +11,11 @@ export interface HeaderAuthInfo {
 export function HeaderAuthInfo({ className = "" }: HeaderAuthInfo) {
     const { isAuth, user, logout } = authStore();
     const navigate = useNavigate()
-    const logoutToast = useCallback(async () => {
-        await logout();
-        toast.success("Logout succees")
+    const logoutToast = useCallback(() => {
+        logout();
+        toast.success("Logout succeed", {
+            duration: 3000
+        })
     }, [])
 
     const navigateSharingPage = useCallback(() => {
@@ -37,11 +39,11 @@ export function HeaderAuthInfo({ className = "" }: HeaderAuthInfo) {
         {/* For mobile device */}
         <div className="flex flex-row gap-2 md:hidden">
 
-            <Button onClick={navigateSharingPage} data-testid='sharing' className="!bg-youtube-primary hover:grayscale-[20%] shadow-md" icon >
+            <Button aria-label="sharing-button-mobile" onClick={navigateSharingPage} data-testid='sharing' className="!bg-youtube-primary hover:grayscale-[20%] shadow-md" icon >
                 <Icon name="share" className=" text-white" />
             </Button>
 
-            <Button data-testid='sign-out' onClick={logoutToast} className="!bg-youtube-primary hover:grayscale-[20%] shadow-md" icon >
+            <Button aria-label="logout-button-mobile" data-testid='sign-out' onClick={logoutToast} className="!bg-youtube-primary hover:grayscale-[20%] shadow-md" icon >
                 <Icon name="sign out" className=" text-white" />
             </Button>
         </div>

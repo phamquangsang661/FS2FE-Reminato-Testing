@@ -1,7 +1,7 @@
 import { getError } from '@utils/error'
 import api from "@utils/api";
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { authGetMe, authLogout, authSignIn, authVerifyToken } from '@services/auth';
+import serviceAuth from '@services/auth';
 import { fakeCookie, fakeLoginData, fakeUserData } from '__mocks__/fake/user';
 
 
@@ -25,7 +25,7 @@ describe('Service auth sign in', () => {
         })
 
         try {
-            const res = await authSignIn({
+            const res = await serviceAuth.authSignIn({
                 data: fakeLoginData
             })
 
@@ -45,7 +45,7 @@ describe('Service auth sign in', () => {
         });
 
         try {
-            const res = await authGetMe();
+            const res = await serviceAuth.authGetMe();
             expect(res.data?.data).toBe(fakeUserData)
         } catch (err) {
             expect(getError(err)).toBeTypeOf("string")
@@ -61,7 +61,7 @@ describe('Service auth sign in', () => {
         })
 
         try {
-            const res = await authVerifyToken();
+            const res = await serviceAuth.authVerifyToken();
             expect(res.data?.data).toBe(true)
         } catch (err) {
             expect(getError(err)).toBeTypeOf("string")
@@ -77,7 +77,7 @@ describe('Service auth sign in', () => {
         })
 
         try {
-            const res = await authLogout();
+            const res = await serviceAuth.authLogout();
             expect(res.data.message).toBe("Success")
         } catch (err) {
             expect(getError(err)).toBeTypeOf("string")

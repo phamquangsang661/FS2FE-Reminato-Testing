@@ -3,16 +3,18 @@ import { FormView } from './form-view';
 import { Button, Input } from 'semantic-ui-react';
 import toast from 'react-hot-toast';
 import { getError } from '@utils/error';
-import { authSignIn } from '@services/auth';
+import serviceAuth from '@services/auth';
 import { useFormikErrorSubscribe } from '@hooks';
 import { signInValidation } from '@validations/auth';
 import { authStore } from '@stores/auth-store';
+import { videoStore } from '@stores/video-store';
 
 export interface FormHeaderLogin {
     className?: string;
 }
 export function FormHeaderLogin({ className = "" }: FormHeaderLogin) {
-    const { isAuth, setAuth } = authStore()
+    const { isAuth, setAuth } = authStore();
+    const { fetchVideo } = videoStore();
 
     const formik = useFormik({
         initialValues: {
@@ -22,14 +24,16 @@ export function FormHeaderLogin({ className = "" }: FormHeaderLogin) {
         validationSchema: signInValidation,
         onSubmit: async (values) => {
             try {
-                const res = await authSignIn({ data: values });
+                const res = await serviceAuth.authSignIn({ data: values });
                 const data = res.data.data;
                 setAuth(data.user as UserSimpleInfo);
+                await fetchVideo();
                 toast.success("Sign in success");
                 formik.setValues({
                     email: "",
                     password: ""
                 })
+             
             } catch (err) {
 
                 toast.error(getError(err))

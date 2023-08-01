@@ -1,4 +1,4 @@
-import { videoGetVideos } from '@services/video';
+import serviceVideo from '@services/video';
 import { waitResolve } from '@utils/utils';
 import { create } from 'zustand'
 
@@ -26,7 +26,7 @@ export const videoStore = create<VideoStore>()((set, get) => ({
         state.isDone = false;
         set(state)
         try {
-            const res = await videoGetVideos({
+            const res = await serviceVideo.videoGetVideos({
                 query: {}
             })
             const data = res.data.data as VideoShareModelType[];
@@ -50,7 +50,7 @@ export const videoStore = create<VideoStore>()((set, get) => ({
         state.isDone = false;
         set(state)
         try {
-            const res = await videoGetVideos({
+            const res = await serviceVideo.videoGetVideos({
                 query: {
                     cursor: state.cursorId,
                     limit: state.limit

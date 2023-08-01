@@ -7,7 +7,7 @@ type VideoSharing = {
     }
 }
 
-export async function videoSharing(ctx: VideoSharing) {
+async function videoSharing(ctx: VideoSharing) {
     return await api.post(API_URL.VIDEO.SHARE, ctx.data)
 }
 
@@ -18,7 +18,7 @@ type VideoGetVideos = {
     }
 }
 
-export async function videoGetVideos(ctx: VideoGetVideos) {
+async function videoGetVideos(ctx: VideoGetVideos) {
     const urlParams = new URLSearchParams(ctx.query);
     [...urlParams.entries()].forEach(([key, value]) => {
         if (!value || value == undefined || value == "undefined") {
@@ -38,7 +38,7 @@ type VideoVoteVideo = {
     }
 }
 
-export async function videoVoteVideo(ctx: VideoVoteVideo) {
+async function videoVoteVideo(ctx: VideoVoteVideo) {
     return await api.put(API_URL.VIDEO.VIDEOS.VOTE(ctx.params.id), ctx.body)
 }
 

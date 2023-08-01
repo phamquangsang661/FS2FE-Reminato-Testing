@@ -1,5 +1,5 @@
 import { FormView, Layout } from "@components";
-import { videoSharing } from "@services/video";
+import serviceVideo from "@services/video";
 import { authStore } from "@stores/auth-store";
 import { getError } from "@utils/error";
 import { videoSharingValidation } from "@validations/video";
@@ -16,7 +16,7 @@ export function SharingPage() {
         validationSchema: videoSharingValidation,
         onSubmit: async (values) => {
             try {
-                await videoSharing({
+                await serviceVideo.videoSharing({
                     data: {
                         url: values.url
                     }
@@ -32,7 +32,7 @@ export function SharingPage() {
             }
         }
     })
-    
+
     useFormikErrorSubscribe({ formik })
     if (!isAuth) {
         return null

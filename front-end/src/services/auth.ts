@@ -8,19 +8,19 @@ export type AuthSignIn = {
     }
 }
 
-export async function authSignIn(ctx: AuthSignIn) {
+async function authSignIn(ctx: AuthSignIn) {
     return await api.post(API_URL.AUTH.SIGN_IN, ctx.data)
 }
 
-export async function authLogout() {
+async function authLogout() {
     return await api.put(API_URL.AUTH.LOGOUT, {})
 }
 
-export async function authVerifyToken() {
+async function authVerifyToken() {
     return await api.get(API_URL.AUTH.VERIFY.TOKEN)
 }
 
-export async function authGetMe() {
+async function authGetMe() {
     return await api.get(API_URL.AUTH.USER.ME)
 }
 

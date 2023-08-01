@@ -37,11 +37,11 @@ export function Header({ className = "" }: Header) {
             <HeaderAuthInfo />
             {/* Not Auth */}
             {/* Login */}
-            <ModalLogin  className="!block md:!hidden" />
+            <ModalLogin className="!block md:!hidden" />
             <FormHeaderLogin className="!hidden md:!block" />
             {/* Refresh feed */}
             <Popup content='Refresh your feed' trigger={
-                <Button onClick={refreshVideo} className="!bg-youtube-primary hover:grayscale-[20%] shadow-md" icon >
+                <Button aria-label="refresh-button" onClick={refreshVideo} className="!bg-youtube-primary hover:grayscale-[20%] shadow-md" icon >
                     <Icon name="refresh" className=" text-white" />
                 </Button>
             } />

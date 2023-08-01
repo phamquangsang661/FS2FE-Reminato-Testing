@@ -2,7 +2,7 @@ import YouTube from 'react-youtube';
 import { Icon } from 'semantic-ui-react';
 import { RichTextRender } from '../rich-text/rich-text-render';
 import { authStore } from '@stores/auth-store';
-import { videoVoteVideo } from '@services/video';
+import serviceAuth from '@services/video';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import toast from 'react-hot-toast';
@@ -46,7 +46,7 @@ export function VideoItem({ videoInfo: input, className = "" }: VideoItem) {
             }
         }
         try {
-            await videoVoteVideo({
+            await serviceAuth.videoVoteVideo({
                 params: {
                     id: videoInfo.id
                 },

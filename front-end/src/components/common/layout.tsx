@@ -19,7 +19,7 @@ export function Layout({
 }: Layout) {
 
     return <>
-        <div className={`flex min-h-screen flex-col items-center justify-center ${mainClassName}`}>
+        <div aria-label="layout" className={`flex min-h-screen flex-col items-center justify-center ${mainClassName}`}>
             <Header />
             <div className={`flex-grow  ${className}`}>
                 {children}

@@ -1,7 +1,7 @@
 import { act, fireEvent, render, renderHook, screen, waitFor } from '@testing-library/react';
 import { mockAuth } from '__mocks__/auth';
 import { describe, expect, it, vi } from 'vitest';
-import {  fakeLoginData, fakeUserData } from '__mocks__/fake/user';
+import { fakeLoginData, fakeUserData } from '__mocks__/fake/user';
 import { BrowserRouter } from 'react-router-dom'
 import toast from 'react-hot-toast';
 import { ModalLogin } from '../../../../src/components/modal/modal-login';
@@ -40,9 +40,7 @@ describe('Components/modal modal login', () => {
         expect(await screen.findByRole("button", {
             name: /Close/i
         })).toBeInTheDocument()
-        expect(await screen.findByRole("button", {
-            name: /Login \/ Register/i
-        })).toBeInTheDocument()
+        expect(await screen.findByLabelText("login-button-mobile")).toBeInTheDocument()
 
     });
 
@@ -99,9 +97,7 @@ describe('Components/modal modal login', () => {
         fireEvent.change(passwordInput, { target: { value: fakeLoginData.password } });
 
 
-        const submitButton = await screen.findByRole("button", {
-            name: /Login \/ Register/i
-        })
+        const submitButton = await screen.findByLabelText("login-button-mobile")
         expect(submitButton).toBeInTheDocument();
 
         const callRequest = vi.mocked(serviceAuth.authSignIn).mockImplementationOnce(() => {
@@ -141,9 +137,7 @@ describe('Components/modal modal login', () => {
         expect(emailInput).toBeInTheDocument()
         expect(passwordInput).toBeInTheDocument()
 
-        const submitButton = await screen.findByRole("button", {
-            name: /Login \/ Register/i
-        })
+        const submitButton = await screen.findByLabelText("login-button-mobile")
 
         expect(submitButton).toBeInTheDocument();
 

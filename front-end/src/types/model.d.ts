@@ -14,7 +14,6 @@ type VideoShareModelType={
     upvote: number;
     downvote: number;
     sharedTime: string;
-    sharedById: string;
     sharedBy:{
         email:string
     },

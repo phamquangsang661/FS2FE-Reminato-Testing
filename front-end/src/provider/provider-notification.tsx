@@ -5,15 +5,18 @@ import { ReactNode, useEffect } from "react"
 import toast from "react-hot-toast";
 
 export interface ProviderNotification {
-    children?: ReactNode
+    children?: ReactNode;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    _mockSocket?: any
 }
-export function ProviderNotification({ children }: ProviderNotification) {
+export function ProviderNotification({ children, _mockSocket = null }: ProviderNotification) {
     const { isAuth, user } = authStore();
     const socket = useSocket({
         url: import.meta.env.VITE_SERVER_NOTIFY_API_URL,
         ops: {
             withCredentials: true,
-        }
+        },
+        _mockSocket
     })
 
     useEffect(() => {
@@ -23,6 +26,7 @@ export function ProviderNotification({ children }: ProviderNotification) {
             }
 
             socket?.on("new_video_sharing", (message: string) => {
+                console.log("12345")
                 try {
                     const video = JSON.parse(message) as NotifyServiceConsume;
 

@@ -1,4 +1,4 @@
-import { authGetMe, authLogout, authVerifyToken } from '@services/auth';
+import serviceAuth from '@services/auth';
 import { create } from 'zustand'
 
 type AuthStore = {
@@ -28,7 +28,7 @@ export const authStore = create<AuthStore>()((set, get) => ({
         const state = { ...get() };
 
         try {
-            await authVerifyToken();
+            await serviceAuth.authVerifyToken();
             // First time
             if (!state.isAuth) {
                 state.user = await state.fetchUser();
@@ -48,7 +48,7 @@ export const authStore = create<AuthStore>()((set, get) => ({
     },
     fetchUser: async () => {
         try {
-            const res = await authGetMe();
+            const res = await serviceAuth.authGetMe();
             return res.data.data as UserSimpleInfo
         } catch {
             return null
@@ -65,7 +65,7 @@ export const authStore = create<AuthStore>()((set, get) => ({
         };
     }),
     logout: async () => {
-        await authLogout();
+        await serviceAuth.authLogout();
         set((state) =>
         ({
             ...state,
