@@ -22,9 +22,6 @@ export function SharingPage() {
                     }
                 })
 
-                formik.setValues({
-                    url: ""
-                })
                 toast.success("Sharing video success, your video will notify to the others")
             }
             catch (err) {
