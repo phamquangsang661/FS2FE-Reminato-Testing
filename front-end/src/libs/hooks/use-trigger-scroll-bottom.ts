@@ -1,10 +1,13 @@
 import { RefObject, useEffect } from "react";
 
-export function useTriggerScrollBottom(ref: RefObject<HTMLElement>, callback: () => Promise<void> | void = () => { }) {
+export function useTriggerScrollBottom(
+    ref: RefObject<HTMLElement>,
+    callback: () => Promise<void> | void = () => { }
+) {
 
     useEffect(() => {
         const trackScrolling = () => {
-            
+
             if (ref.current &&
                 ref.current.getBoundingClientRect().bottom <= window.innerHeight) {
                 callback()
