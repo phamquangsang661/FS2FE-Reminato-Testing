@@ -3,6 +3,7 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    "./__mocks__/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
     extend: {
