@@ -5,7 +5,7 @@ import { ReactNode, useEffect } from "react"
 import toast from "react-hot-toast";
 
 export interface ProviderNotification {
-    children: ReactNode
+    children?: ReactNode
 }
 export function ProviderNotification({ children }: ProviderNotification) {
     const { isAuth, user } = authStore();

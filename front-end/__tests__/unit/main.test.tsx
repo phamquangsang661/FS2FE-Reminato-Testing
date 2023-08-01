@@ -4,8 +4,6 @@ import { mockAuth } from '__mocks__/auth'
 import { RouterProvider, createMemoryRouter } from 'react-router-dom'
 
 
-
-
 describe("Main", () => {
 
     afterEach(() => {

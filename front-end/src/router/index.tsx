@@ -11,7 +11,7 @@ import { NotFound } from "@pages/not-found";
 
 export const routerConfig = createRoutesFromElements(
     <>
-        <Route path="/" element={<Home />} />
+        <Route index  path="/" element={<Home />} />
         <Route path="/video/sharing" element={
             <ProtectedRoute>
                 <SharingPage />

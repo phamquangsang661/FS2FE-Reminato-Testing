@@ -1,15 +1,17 @@
-
-import {
-    RouterProvider
-} from "react-router-dom";
-import { routers } from "../router";
+import '../assets/css/global.css'
 import { Toaster } from "react-hot-toast";
-import { useEffect } from "react";
+import {  useEffect } from "react";
 import { authStore } from "@stores/auth-store";
 import { ProviderNotification } from "./provider-notification";
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
-export function Provider() {
-    const { refresh, isDone } = authStore();
+export interface Provider {
+
+    router: ReturnType<typeof createBrowserRouter>
+}
+export function Provider({ router }: Provider) {
+    const { refresh, isDone, isAuth } = authStore();
+
 
     useEffect(() => {
         refresh()
@@ -17,11 +19,12 @@ export function Provider() {
     if (!isDone) return null;
 
     return <>
-        <ProviderNotification>
-            <RouterProvider router={routers} />
-            <Toaster
-                position="top-center"
-            />
-        </ProviderNotification>
+        {isAuth &&
+            <ProviderNotification />
+        }
+        <RouterProvider router={router} />
+        <Toaster
+            position="top-center"
+        />
     </>
 }

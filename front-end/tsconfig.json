@@ -37,6 +37,9 @@
       ],
       "__mocks__/*": [
         "./__mocks__/*"
+      ],
+      "@src/*": [
+        "./src/*"
       ]
     },
     /* Bundler mode */
@@ -62,7 +65,8 @@
     "src",
     "__mocks__",
     "__tests__",
-    "custom.d.ts"
+    "custom.d.ts",
+    "cypress"
   ],
   "references": [
     {
