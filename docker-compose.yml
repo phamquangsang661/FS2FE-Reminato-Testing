@@ -1,0 +1,97 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ./.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ./.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+
+  db:
+    container_name: db
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./db:/var/lib/postgresql/data
+
+  #Main server
+  server:
+    build:
+      args:
+        - NODE_ENV=PRODUCTION
+      context: back-end
+      target: installation
+    command: npm run start
+    env_file: ./back-end/.env
+    ports:
+      - 3000:3000
+    volumes:
+      - ./back-end:/base:ro
+
+    depends_on:
+      - db
+      - rabbitmq
+
+
+  # # Notification service
+  # notification-service:
+  #   image: node:16.13.1
+  #   command: npm run start:notify
+  #   ports:
+  #     - 3555:3555
+  #   volumes:
+  #     - ./back-end:/base:ro
+  #   networks:
+  #     - public
+  #     - private
+  #   depends_on:
+  #     - server
+
+  # # Video service
+  # video-service:
+  #   image: node:16.13.1
+  #   command: npm run start:video
+  #   volumes:
+  #     - ./back-end:/base:ro
+  #   networks:
+  #     - private
+  #   depends_on:
+  #     - server
+
+  # # Front end
+  # frontend:
+  #   build:
+  #     context: frontend
+  #     target: production
+  #   ports:
+  #     - 4001:4001
+  #   volumes:
+  #     - ./front-end:/base/src
+  #   networks:
+  #     - public
+  #   depends_on:
+  #     - server
+  # cypress:
+  #   image: "cypress/included:7.5.0"
+  #   depends_on:
+  #     - frontend
+  #   environment:
+  #     - CYPRESS_baseUrl=http://localhost:4001
+  #     - CYPRESS_VIDEO=false
+  #   working_dir: /e2e
+  #   volumes:
+  #     - ./front-end/.:/e2e
+
+volumes:
+  back-end:
+    external: true
+  front-end:
+    external: true
+  db:

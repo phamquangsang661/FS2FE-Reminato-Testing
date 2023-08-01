@@ -41,9 +41,12 @@ you can use one of the following tools for coding:
 
 - **Visual studio code**
   [Extensions] you can use the following extension to ensure coding more effective and support in some specific case.
-  - ext a
-  - ext b
-  - ext c
+  - Code Spell Checker
+  - ESLint
+  - JavaScript and TypeScript Nightly
+  - Prisma
+  - Prettier
+  - Tailwind CSS IntelliSense
 
 ### Front-end
 
@@ -141,7 +144,7 @@ cd back-end
 npm run db:migrate-prod
 ```
 
-The back-end also run this in **postinstall** command. It will generate type for prisma in typescript and also migrate database in production. Foreach update in database you can use following command also.
+This command will generate type for prisma in typescript and also migrate database in production. Foreach update in database you can use following command also.
 
 ```bash
 npm run db:auto-prod
@@ -391,6 +394,16 @@ docker compose
 ```
 
 You can change the compose in **compose.yaml** of root folder
+
+Docker compose will ensure all the following service:
+
+ - RabbitMQ
+ - Postgres DB
+ - Main server
+ - Notify server
+ - Video server
+ - Front end app
+ - Cypress
 
 ## Usage
 

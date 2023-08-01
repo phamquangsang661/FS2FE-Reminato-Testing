@@ -4,20 +4,17 @@ FROM node:16.13.1 AS installation
 WORKDIR /base
 
 COPY ./package.json /base/package.json
-RUN npm ci
-RUN npm run db:auto-prod; 
+COPY . /base
+RUN npm install
+
 
 # Stage 2
-FROM installation AS development
-COPY . /base
-
-# Stage 3
-FROM development AS operation 
+FROM installation AS operation 
 HEALTHCHECK --interval=30s \
   CMD node healthcheck.js
 
 # Stage 4
-FROM development as dev-envs
+FROM installation as dev-envs
 
 # install git 
 RUN <<EOF
