@@ -5,6 +5,7 @@ import prisma from "@services/prisma";
 export default async () => {
   prisma.getInstance();
   await ServiceReceiver.getInstance();
+  ServiceReceiver.serviceName = "Notification service"
   await ServiceReceiver.signQueue(QUEUE.VIDEO_SERVICE.VOTE);
 
   return async () => {
