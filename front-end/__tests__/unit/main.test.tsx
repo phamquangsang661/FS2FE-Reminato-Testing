@@ -1,16 +1,50 @@
-import { render, screen } from '@testing-library/react'
-import { RouterProvider } from 'react-router-dom'
+import { routerConfig } from '@router/index'
+import { screen, render } from '@testing-library/react'
+import { mockAuth } from '__mocks__/auth'
+import { RouterProvider, createMemoryRouter } from 'react-router-dom'
 
-import { routers } from '@router/index'
+
+
 
 describe("Main", () => {
-    it("Runnable", () => {
+
+    afterEach(() => {
+        vi.restoreAllMocks()
+    })
+
+    it("Runnable home page", () => {
+
+        const router = createMemoryRouter(routerConfig, {
+            initialEntries: ["/"],
+        });
+        const { container } = render(
+            <RouterProvider router={router} />
+        )
+
+        expect(container).not.toBeEmptyDOMElement()
+    })
+
+    it("Runnable sharing video page", async () => {
+        await mockAuth()
+        const routers = createMemoryRouter(routerConfig, {
+            initialEntries: ["/video/sharing"],
+        });
 
         const { container } = render(
             <RouterProvider router={routers} />
         )
-        screen.debug()
-        expect(container).not.toBeEmptyDOMElement()
+        expect(container).not.toBeEmptyDOMElement();
+    })
 
+    it("404", async () => {
+        const routers = createMemoryRouter(routerConfig, {
+            initialEntries: ["/any-url-not-exist"],
+        });
+
+        render(
+            <RouterProvider router={routers} />
+        )
+
+        expect(await screen.findByText("404")).toBeInTheDocument()
     })
 })
