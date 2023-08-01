@@ -54,13 +54,15 @@
     "typeRoots": [
       "./node_modules/@types",
       "./src/vite-env.d.ts",
-      "./src/types/**"
+      "./src/types/**",
+      "./custom.d.ts"
     ]
   },
   "include": [
     "src",
     "__mocks__",
-    "__tests__"
+    "__tests__",
+    "custom.d.ts"
   ],
   "references": [
     {
