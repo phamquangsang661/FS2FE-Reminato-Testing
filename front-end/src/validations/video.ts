@@ -6,6 +6,6 @@ export const videoSharingValidation = toFormikValidationSchema(
     url: z
       .string({
         required_error: "Url video is required",
-      })
+      }).url()
   })
 );

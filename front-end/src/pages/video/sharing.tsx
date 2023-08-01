@@ -1,13 +1,16 @@
 import { FormView, Layout } from "@components";
 import { videoSharing } from "@services/video";
+import { authStore } from "@stores/auth-store";
 import { getError } from "@utils/error";
 import { videoSharingValidation } from "@validations/video";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import { Button, Input } from "semantic-ui-react";
+import { useFormikErrorSubscribe } from "@hooks";
 
 export function SharingPage() {
 
+    const { isAuth } = authStore()
     const formik = useFormik({
         initialValues: { url: "" },
         validationSchema: videoSharingValidation,
@@ -18,16 +21,22 @@ export function SharingPage() {
                         url: values.url
                     }
                 })
-                toast.success("Sharing video success, your video will notify to the others")
+
                 formik.setValues({
                     url: ""
                 })
+                toast.success("Sharing video success, your video will notify to the others")
             }
             catch (err) {
                 toast.error(getError(err))
             }
         }
     })
+    
+    useFormikErrorSubscribe({ formik })
+    if (!isAuth) {
+        return null
+    }
     return <Layout
         title="Sharing"
         content="Sharing page"
@@ -42,6 +51,7 @@ export function SharingPage() {
                     <div className="flex flex-col gap-3 sm:gap-10 w-full">
                         <Input
                             name="url"
+                            placeholder="url"
                             value={formik.values.url}
                             onChange={formik.handleChange}
                             className=" font-primary "

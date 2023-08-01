@@ -7,7 +7,7 @@ import {
 import { Home } from "@pages/index"
 import { SharingPage } from "@pages/video/sharing";
 import { ProtectedRoute } from "./protected";
-import { NotFound } from "@pages/NotFound";
+import { NotFound } from "@pages/not-found";
 
 export const routerConfig = createRoutesFromElements(
     <>
