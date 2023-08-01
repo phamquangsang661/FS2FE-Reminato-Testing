@@ -30,14 +30,14 @@ services:
     build:
       args:
         - NODE_ENV=PRODUCTION
-      context: back-end
+      context: backend
       target: installation
     command: npm run start
-    env_file: ./back-end/.env
+    env_file: ./backend/.env
     ports:
       - 3000:3000
     volumes:
-      - ./back-end:/base:ro
+      - ./backend:/base:ro
     networks:
       - public
       - private
@@ -53,7 +53,7 @@ services:
     ports:
       - 3555:3555
     volumes:
-      - ./back-end:/base:ro
+      - ./backend:/base:ro
     networks:
       - public
       - private
@@ -65,7 +65,7 @@ services:
     image: node:16.13.1
     command: npm run start:video
     volumes:
-      - ./back-end:/base:ro
+      - ./backend:/base:ro
     networks:
       - private
     depends_on:
@@ -79,7 +79,7 @@ services:
     ports:
       - 4001:4001
     volumes:
-      - ./front-end:/base/src
+      - ./frontend:/base/src
     networks:
       - public
     depends_on:
@@ -93,11 +93,11 @@ services:
       - CYPRESS_VIDEO=false
     working_dir: /e2e
     volumes:
-      - ./front-end/.:/e2e
+      - ./frontend/.:/e2e
 
 volumes:
-  back-end:
+  backend:
     external: true
-  front-end:
+  frontend:
     external: true
   db:
