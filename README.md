@@ -65,7 +65,7 @@ Ensure you have the following back-end technologies and versions:
 [Optional]: Alternatively, you can use one of the following sql instead:
 
 - **mongo** (version \*) [**Didn't test**]
-- **postgres** (version ^15.x)
+- **postgres** (version ^15.x) [**Didn't test**]
 
 ### Other service
 
@@ -124,6 +124,8 @@ In back-end you have to run generate env to ensure typescript working correct, w
 ```bash
 npm run g:env
 ```
+<!-- 
+For the host name of DATABASE_URL env. It should be db if we deploy in docker composer, because the container name define in docker composer is **db** -->
 
 #### Front-end specific
 
