@@ -6,6 +6,8 @@ import { Server } from "socket.io";
 import dotenv from "dotenv";
 import logger from "@utils/logger";
 import { authSocket } from "@services/auth";
+import Logger from "@utils/logger";
+import { waitResolve } from "@utils/utils";
 dotenv.config();
 
 const NOTIFICATION_SOCKET_PORT = process.env.NOTIFICATION_SOCKET_PORT ?? 3555;
@@ -33,11 +35,24 @@ const NOTIFICATION_SOCKET_PORT = process.env.NOTIFICATION_SOCKET_PORT ?? 3555;
     return authSocket(socket, next);
   });
 
-  const sharing = sharingConsume;
+
+  const runConsume = async (io) => {
+    try {
+      const sharing = sharingConsume(io);
+      //...Other consumer
+      await Promise.all([sharing]);
+
+    } catch (err) {
+      Logger.error("Consume notification error", err);
+      await waitResolve(20000)
+      Logger.warn("Re-connect notification consume", err);
+      await runConsume(io)
+    }
+  }
 
   io.on("connection", (socket) => {
     if (!socket.data.isAuth) socket.disconnect();
-    sharing(io);
+    runConsume(io)
   });
 
   server.listen(NOTIFICATION_SOCKET_PORT, function () {

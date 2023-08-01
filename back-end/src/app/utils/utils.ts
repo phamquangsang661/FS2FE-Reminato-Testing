@@ -21,3 +21,10 @@ export const isNullable = <T>(data: T) => {
   return false;
 };
 
+export async function waitResolve(ms = 1000) {
+  return await new Promise(resolve => {
+    setTimeout(() => {
+      resolve(true)
+    }, ms)
+  })
+}
