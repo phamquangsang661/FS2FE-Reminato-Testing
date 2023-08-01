@@ -35,7 +35,7 @@
       "@validations/*": [
         "./src/validations/*"
       ],
-      "__mocks__/*":[
+      "__mocks__/*": [
         "./__mocks__/*"
       ]
     },
@@ -55,7 +55,7 @@
       "./node_modules/@types",
       "./src/vite-env.d.ts",
       "./src/types/**"
-    ],
+    ]
   },
   "include": [
     "src",
