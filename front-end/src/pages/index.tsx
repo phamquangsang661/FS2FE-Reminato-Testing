@@ -18,10 +18,7 @@ export function Home() {
         }
     })
     return <Layout
-        title="Home"
-        content="Home page"
         className="py-20"
-
     >
         <VideoItems ref={ref}>
             {videos.map(video => (

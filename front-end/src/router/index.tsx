@@ -7,6 +7,7 @@ import {
 import { Home } from "@pages/index"
 import { SharingPage } from "@pages/video/sharing";
 import { ProtectedRoute } from "./protected";
+import { NotFound } from "@pages/NotFound";
 
 export const routers = createBrowserRouter(createRoutesFromElements(
     <>
@@ -16,5 +17,6 @@ export const routers = createBrowserRouter(createRoutesFromElements(
                 <SharingPage />
             </ProtectedRoute>
         } />
+        <Route path='*' element={<NotFound />}/>
     </>
 ))
