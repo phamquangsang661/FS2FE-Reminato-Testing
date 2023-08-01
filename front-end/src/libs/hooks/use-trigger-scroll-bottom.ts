@@ -4,6 +4,7 @@ export function useTriggerScrollBottom(ref: RefObject<HTMLElement>, callback: ()
 
     useEffect(() => {
         const trackScrolling = () => {
+            
             if (ref.current &&
                 ref.current.getBoundingClientRect().bottom <= window.innerHeight) {
                 callback()
@@ -14,5 +15,5 @@ export function useTriggerScrollBottom(ref: RefObject<HTMLElement>, callback: ()
             document.removeEventListener("scroll", trackScrolling)
         }
     }, [ref])
-
+    return { ref }
 }
