@@ -10,7 +10,7 @@
     "start:notify": " node  --experimental-specifier-resolution=node --no-warnings --loader ./loader.js ./src/services/notification/app.ts",
     "eslint:fix": "eslint --fix ./src/*",
     "postinstall": "npm run db:auto-prod && npm run g:env",
-    "seed": "ts-node src/prisma/seed.ts",
+    "seed": "ts-node ./prisma/seed.ts",
     "prisma:generate": "npx prisma generate",
     "prisma:format": "npx npx prisma format",
     "db:migrate-dev": "npx prisma migrate dev --name init",

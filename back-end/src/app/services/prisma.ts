@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import Logger from "@utils/logger";
+import { waitResolve } from "@utils/utils";
 
 class Prisma {
   private static instance: PrismaClient = null;
@@ -14,6 +15,17 @@ class Prisma {
   }
   public static close() {
     this.instance.$disconnect();
+  }
+  public static async reconnect() {
+    try {
+      Logger.warn("Re-connect prisma");
+      this.instance = new PrismaClient();
+    } catch (err) {
+      Logger.error("Re-connect prisma failed", err);
+      await waitResolve(10000);
+      Logger.warn("Re-connect prisma");
+      await this.reconnect()
+    }
   }
 }
 

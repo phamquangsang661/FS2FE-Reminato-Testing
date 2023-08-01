@@ -8,6 +8,7 @@ export default async () => {
     prisma.getInstance();
   } catch (err) {
     Logger.error("INIT", err);
+    prisma.reconnect()
   }
 
   const initRabbitMQSender = async () => {
