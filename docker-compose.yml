@@ -95,6 +95,9 @@ services:
     volumes:
       - ./frontend/.:/e2e
 
+networks:
+  public:
+  private:
 volumes:
   backend:
     external: true
