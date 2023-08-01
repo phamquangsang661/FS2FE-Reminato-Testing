@@ -113,7 +113,10 @@ export default async () => {
         }
       } catch (err) {
         Logger.error("Consume vote service", err);
+      } finally {
+        channel.ack(message);
       }
+
     },
     { noAck: false }
   );
