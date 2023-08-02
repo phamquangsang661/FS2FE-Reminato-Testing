@@ -3,8 +3,8 @@ services:
     container_name: rabbitmq
     image: rabbitmq:3-management
     ports:
-      - 5672:5672
-      - 15672:15672
+      - 5673:5672
+      - 15673:15672
     volumes:
       - ./.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
       - ./.docker-conf/rabbitmq/log/:/var/log/rabbitmq
@@ -16,7 +16,7 @@ services:
     build:
       context: backend
       target: operation
-    command: npm run start
+    command: npm run db:auto-prod && npm run start
     env_file: ./backend/.env
     ports:
       - 3000:3000
