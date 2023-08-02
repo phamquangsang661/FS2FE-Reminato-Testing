@@ -27,7 +27,6 @@ services:
       - public
       - private
     depends_on:
-      - db
       - rabbitmq
 
 
