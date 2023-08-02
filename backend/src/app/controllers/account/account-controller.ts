@@ -68,14 +68,14 @@ export class AccountController {
       res.cookie("jwt", token, {
         maxAge: +process.env.JWT_EXPIRED_TIME ?? DEFAULT_TIME_EXPIRED,
         sameSite: "none",
-        secure: true,
+        secure: false,
         httpOnly: true,
         path: "/"
       });
       res.cookie("rs", refreshToken, {
         maxAge: +process.env.JWT_EXPIRED_TIME ?? DEFAULT_TIME_EXPIRED,
         sameSite: "none",
-        secure: true,
+        secure: false,
         httpOnly: true,
         path: "/"
       });
