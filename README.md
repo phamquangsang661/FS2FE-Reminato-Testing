@@ -60,12 +60,12 @@ Ensure you have the following front-end technologies and versions:
 Ensure you have the following back-end technologies and versions:
 
 - **Typescript** (version ^5.0.4)
-- **Sql-lite** [**Testing directly in project without install anything else**]
+- **Sql-lite** [**Testing directly in project without install anything else, please careful remove :ro in docker when deploying to test**]
 
 [Optional]: Alternatively, you can use one of the following sql instead:
 
 - **mongo** (version \*) [**Didn't test**]
-- **postgres** (version ^15.x) [**Didn't test**]
+- **postgres** (version ^15.x) 
 
 ### Other service
 
@@ -117,6 +117,8 @@ Each env meaning will be explained in the **.env.example**. Please careful when 
 
 If you run a docker instead of running, you still have to create **.env** file for each directory.
 
+For docker compose deploy, please create .env in root folder, by copy .env.example in root. Please ensuring all port expose suitable with your service, and connect with each other
+
 #### Back-end specific
 
 In back-end you have to run generate env to ensure typescript working correct, with the following command, it also will be auto running after npm install:
@@ -131,6 +133,11 @@ For the host name of DATABASE_URL env. It should be db if we deploy in docker co
 
 In front-end you can define type of .env in **front-end/src/vite-end.d.ts**. Default .env that worked have been added, so you have not to edit anything. You can read this [article](https://vitejs.dev/guide/env-and-mode.html) for understanding vite processing env.
 
+#### Root specific
+
+In root you can define type of .env in **./.env**. Default .env that worked have been added, so you have not to edit anything. You can read this [article](https://vitejs.dev/guide/env-and-mode.html) for understanding vite processing env.
+
+
 ## Database Setup
 
 I using prisma to work and migrate database. you can change provider in **back-end/prisma/schema.prisma** of prisma to change database.
@@ -142,7 +149,6 @@ Changing **DATABASE_URL** in **back-end/.env** if you want to change another pro
 To set up the database and run migrations, use the following commands in back-end directory.
 
 ```bash
-cd back-end
 npm run db:migrate-prod
 ```
 
@@ -157,9 +163,15 @@ npm run db:auto-prod
 To set up the database and run migrations, use the following commands in back-end directory. It will create the migration folder in prisma. Prisma will base on these migration for next migrate with development or production
 
 ```bash
-cd back-end
 npm run db:migrate-dev
 ```
+
+You also use db:auto to generate prisma and migrate-dev when deploy
+
+```bash
+npm run db:auto
+```
+
 
 You can also reset database with following command, please careful when run this in production
 
@@ -296,6 +308,12 @@ To serve app, run following command, dist is the folder build of vite, if it is 
 serve -s dist
 ```
 
+It will be auto binding in port 3000, you can add -l option to specific port as below 
+
+```bash
+serve -s dist -l 4001
+```
+
 ### Testing
 
 This part is being excited. But unfortunately I don't have time to write a test in back-end, it will be great if I have it. So in this section I will only introduce how to test in front-end.
@@ -345,8 +363,6 @@ To run cypress, we can use following command
 npm run cypress:open
 ```
 
-We can also deploy cypress with docker, I will introduce in docker section.
-
 After the app run, We will choose the Component testing in Cypress app, and choose a browser for testing. The default is chrome v115. Choose a browser and it will lead you to Cypress component testing in port 4444, you can edit the port in cypress.config.ts .
 
 In the left side navigation of Cypress component testing. Choosing Spec, and you will see all the test that be defined.
@@ -375,6 +391,11 @@ npm run docker:run:rabbitmq
 
 these are default port for rabbit mq, please don't change,If you want to change, you can change it in **compose.yaml** of root folder instead.
 
+
+
+
+You can add args --no-cache when you want force build, please run image prune -f after run that command to ensure clean the old image cache
+
 ### Optional
 
 We should run all the service with docker with **compose.yaml** to get a expect result, if you don't want, please refer all the info below
@@ -389,23 +410,33 @@ That Dockerfile only support to install a back-end main server only, to run a no
 
 This is the best choice if you want to start a fully service in best state.
 
-to run a docker compose, please cd to root folder and run the following command in cmd, bash, powershell, .... Please ensure that you installed docker compose before
+For deploy docker-compose please run following commands in root folder. Please ensuring you copy .env in root folder and change some env for connection between each container
 
 ```bash
-docker compose
+docker-compose up -d
+```
+
+If you want to force rebuild all service, using following command
+```bash
+docker-compose up --force-recreate --build -d
+docker image prune -f # re delete all old cache image
+```
+
+If you want to force rebuild service , using following command
+```bash
+docker-compose build [SERVICE_NAME]
 ```
 
 You can change the compose in **compose.yaml** of root folder
 
-Docker compose will ensure all the following service:
+Docker compose will ensure all the following service and install step by step:
 
  - RabbitMQ
  - Postgres DB
  - Main server
  - Notify server
  - Video server
- - Front end app
- - Cypress
+ - Front end app 
 
 ## Usage
 
@@ -441,7 +472,14 @@ Until now we don't any common issues during setup except losing network, right?
 
 It will be great if we can run the app with docker compose in ubuntu/linux environment.
 
-I tested in Linux/Amd64 success
+
+### Docker compose
+I tested in Linux/Amd64 success, for the problem of docker compose you should notice some problem before run.
+
+- Changing **DATABASE_URL** to **postgresql://postgres:postgres@db/reminato** . With [postgres:postgres] is [username:password], @db is your server database name. In this case I set server database name is db in docker-compose, so this server name should be @db. Finally reminato is your database name. It will be different base on what you set **.env** in root and **docker-compose.yaml**
+- Also changing RABBIT_MQ_HOST to amqp://rabbitmq. That [rabbitmq] is your name of rabbitmq service
+- Watching your port env of all service in .env of root folder suitable with .env of each project: backend, notify, video, frontend to choose good port. Ensuring your application will work normally.
+- For serve of frontend running in docker it will auto run in port 3000 for default, so in the docker-compose.yaml we should open port 3000 instead. We can edit compose-yaml serve command to run with specific port
 
 if you have any question, please contact to me with gmail **phamquangsang661@gmail.com**. 
 

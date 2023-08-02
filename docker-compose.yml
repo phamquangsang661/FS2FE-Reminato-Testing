@@ -11,32 +11,48 @@ services:
     networks:
       - private
 
+  db:
+    container_name: db
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=${DOCKER_POSTGRES_HOST_AUTH_METHOD}
+      - POSTGRES_USER=${DOCKER_POSTGRES_USER}
+      - POSTGRES_PASSWORD==${DOCKER_POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    networks:
+      - private
+
   #Main server
   server:
     build:
       context: backend
-      target: operation
-    command: npm run db:auto-prod && npm run start
+      target: setupdb
+    command: npm run start:docker-prod
     env_file: ./backend/.env
     ports:
-      - 3000:3000
+      - ${DOCKER_SERVER_EXPOSE_PORT}:3000
     volumes:
-      - ./backend:/base:ro
+      - ./backend:/base
     networks:
       - public
       - private
     depends_on:
       - rabbitmq
+      - db
 
   # Notification service
   notification-service:
-    image: amd64/node
+    image: node:16.13.1
     command: npm run start:notify
     ports:
-      - 3555:3555
+      - ${DOCKER_SERVER_NOTIFY_EXPOSE_PORT}:3555
     working_dir: /base
     volumes:
-      - ./backend:/base:ro
+      - ./backend:/base
     networks:
       - public
       - private
@@ -45,40 +61,31 @@ services:
 
   # Video service
   video-service:
-    image: amd64/node
+    image: node:16.13.1
     command: npm run start:video
     working_dir: /base
     volumes:
-      - ./backend:/base:ro
+      - ./backend:/base
     networks:
       - private
     depends_on:
       - server
 
-  # Front end
+  #Front end
   frontend:
     build:
       context: frontend
       target: build
+    env_file: ./frontend/.env
     ports:
-      - 4001:4001
-    command: npx serve dist
+      - ${DOCKER_APP_EXPOSE_PORT}:3000
+    command: npx serve dist # Will auto binding 3000 port, so you should expose from 3000
     volumes:
-      - ./frontend:/base/src
+      - ./frontend:/base
     networks:
       - public
     depends_on:
       - server
-  cypress:
-    image: "cypress/included:7.5.0"
-    depends_on:
-      - frontend
-    entrypoint: cypress open --project /e2e
-    environment:
-      - CYPRESS_baseUrl=http://localhost:4001
-      - CYPRESS_VIDEO=false
-    volumes:
-      - ./frontend/.:/e2e
 
 networks:
   public:
@@ -89,4 +96,3 @@ volumes:
     external: true
   frontend:
     external: true
-  db:

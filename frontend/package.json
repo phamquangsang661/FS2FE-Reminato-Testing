@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "test": "vitest",
     "coverage": "vitest run --coverage",
-    "cypress:open": "npx cypress open "
+    "cypress:open": "npx cypress open --port 5000 "
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",

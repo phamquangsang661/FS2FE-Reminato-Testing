@@ -8,8 +8,9 @@
     "start": " node  --experimental-specifier-resolution=node --no-warnings --loader ./loader.js ./src/server.ts",
     "start:video": " node  --experimental-specifier-resolution=node --no-warnings --loader ./loader.js ./src/services/video/app.ts",
     "start:notify": " node  --experimental-specifier-resolution=node --no-warnings --loader ./loader.js ./src/services/notification/app.ts",
+    "start:docker-prod": "npm run db:auto-prod && npm run start",
     "eslint:fix": "eslint --fix ./src/*",
-    "postinstall": "npm run db:auto-prod && npm run g:env",
+    "post-install": "npm run db:auto-prod && npm run g:env",
     "seed": "ts-node ./prisma/seed.ts",
     "prisma:generate": "npx prisma generate",
     "prisma:format": "npx npx prisma format",
@@ -39,8 +40,9 @@
   "dependencies": {
     "@prisma/client": "4.16.2",
     "@supercharge/strings": "^2.0.0",
+    "@types/bcryptjs": "^2.4.2",
     "amqplib": "^0.10.3",
-    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
     "chalk": "^5.3.0",
     "cookie-parser": "^1.4.6",
     "crypto": "^1.0.1",
@@ -56,13 +58,12 @@
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "socket.io": "^4.6.1",
+    "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
-    "zod": "^3.21.4",
-    "ts-node": "^10.9.1"
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@types/amqplib": "^0.10.1",
-    "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.17",
     "@types/lodash": "^4.14.194",
     "@types/node": "^18.16.2",

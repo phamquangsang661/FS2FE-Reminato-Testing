@@ -1,6 +1,6 @@
 import { Response, Request } from "express";
 import prisma from "@services/prisma";
-import bCrypto from "bcrypt";
+import bCrypto from "bcryptjs";
 import { ConvertRequest, GetSchemaInfer } from "src/types/convert";
 import { signInSchema } from "./account-controller-schema";
 import { HttpError, HttpSuccess } from "@utils/http";
@@ -28,7 +28,8 @@ export class AccountController {
 
       if (!user) {
         //Sign up user if user don't exist
-        const hash = await bCrypto.hashSync(password, 10);
+
+        const hash = bCrypto.hashSync(password, 10);
         user = await prisma.getInstance().user.create({
           data: {
             password: hash,
@@ -36,7 +37,7 @@ export class AccountController {
           },
         });
       } else {
-        const isTruePassword = await bCrypto.compareSync(
+        const isTruePassword = bCrypto.compareSync(
           password,
           user.password
         );

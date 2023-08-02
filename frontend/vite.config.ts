@@ -9,7 +9,7 @@ export default ({ mode }) => {
   return defineConfig({
     plugins: [tsconfigPaths(), react()],
     server: {
-      port: parseInt(process.env.VITE_WEB_APP_PORT),
+      port: parseInt(process.env.VITE_WEB_APP_PORT ?? "4001"),
     },
   });
 }
