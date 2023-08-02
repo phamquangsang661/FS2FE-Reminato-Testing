@@ -16,7 +16,7 @@ services:
       args:
         - NODE_ENV=PRODUCTION
       context: backend
-      target: installation
+      target: operation
     command: npm run start
     env_file: ./backend/.env
     ports:
