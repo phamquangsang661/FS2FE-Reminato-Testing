@@ -12,11 +12,12 @@ export function Home() {
         fetchVideo()
     }, [])
 
+
     useTriggerScrollBottom(ref, () => {
         if (!isEnd) {
             fetchNextPage()
         }
-    })
+    }, [isEnd])
     return <Layout
         className="py-20"
     >
