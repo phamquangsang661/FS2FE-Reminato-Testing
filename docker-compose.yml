@@ -59,7 +59,7 @@ services:
   frontend:
     build:
       context: frontend
-      target: production
+      target: build
     ports:
       - 4001:4001
     command: npx serve dist
