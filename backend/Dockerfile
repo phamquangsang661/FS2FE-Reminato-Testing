@@ -6,7 +6,6 @@ WORKDIR /base
 COPY ./package.json /base/package.json
 COPY . /base
 RUN npm install
-RUN npm install -g ts-node
 
 
 # Stage 2

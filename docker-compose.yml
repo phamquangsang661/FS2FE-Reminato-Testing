@@ -13,8 +13,6 @@ services:
   #Main server
   server:
     build:
-      args:
-        - NODE_ENV=PRODUCTION
       context: backend
       target: operation
     command: npm run start
