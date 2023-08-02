@@ -1,5 +1,3 @@
-import dotenv from "dotenv";
-dotenv.config();
 
 import { pathToFileURL } from "node:url";
 import {
@@ -27,9 +25,7 @@ export function resolve(specifier, context, defaultResolver) {
       mappedSpecifier += "\\index";
     }
     specifier = `${mappedSpecifier}.js`;
-    if (process.env.NODE_ENV == "DEVELOPMENT") {
-      console.log("LOADER: " + specifier);
-    }
+   
     const url = specifier.startsWith("file:")
       ? specifier
       : pathToFileURL(specifier.toString());
