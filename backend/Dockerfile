@@ -1,12 +1,11 @@
 # Stage 1
-FROM node:16.13.1 AS installation
+FROM node:18.17.0 AS installation
 
 WORKDIR /base
 
 COPY ./package.json /base/package.json
 COPY . /base
 RUN npm install
-RUN npm start
 
 
 # Stage 2
