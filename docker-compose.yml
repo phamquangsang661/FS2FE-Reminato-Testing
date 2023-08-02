@@ -93,6 +93,4 @@ networks:
     driver: bridge
 volumes:
   backend:
-    external: true
   frontend:
-    external: true
