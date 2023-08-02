@@ -34,6 +34,7 @@ services:
     command: npm run start:notify
     ports:
       - 3555:3555
+    working_dir: /base
     volumes:
       - ./backend:/base:ro
     networks:
@@ -46,6 +47,7 @@ services:
   video-service:
     image:  amd64/node
     command: npm run start:video
+    working_dir: /base
     volumes:
       - ./backend:/base:ro
     networks:
