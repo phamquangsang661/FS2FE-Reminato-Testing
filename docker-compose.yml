@@ -30,7 +30,7 @@ services:
 
   # Notification service
   notification-service:
-    image: node:16.13.1
+    image: amd64/node:16.13.1
     command: npm run start:notify
     ports:
       - 3555:3555
@@ -44,7 +44,7 @@ services:
 
   # Video service
   video-service:
-    image: node:16.13.1
+    image: amd64/node:16.13.1
     command: npm run start:video
     volumes:
       - ./backend:/base:ro

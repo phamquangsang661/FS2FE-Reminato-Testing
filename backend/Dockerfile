@@ -1,5 +1,5 @@
 # Stage 1
-FROM node:16.13.1 AS installation
+FROM amd64/node:16.13.1 AS installation
 
 WORKDIR /base
 
