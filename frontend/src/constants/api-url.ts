@@ -1,19 +1,19 @@
 export const API_URL = {
     AUTH: {
-        SIGN_IN: "/account/sign-in",
-        LOGOUT: "/account/logout",
+        SIGN_IN: "/account/sign-in/",
+        LOGOUT: "/account/logout/",
         VERIFY: {
-            TOKEN: "/verify/token"
+            TOKEN: "/verify/token/"
         },
         USER: {
-            ME: "/account/me"
+            ME: "/account/me/"
         }
     },
     VIDEO: {
-        SHARE: "/videos/sharing",
+        SHARE: "/videos/sharing/",
         VIDEOS: {
-            GETS: "/videos",
-            VOTE: (id: string) => `/videos/${id}/vote`
+            GETS: "/videos/",
+            VOTE: (id: string) => `/videos/${id}/vote/`
         }
     }
 }
