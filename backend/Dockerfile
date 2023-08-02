@@ -6,6 +6,7 @@ WORKDIR /base
 COPY ./package.json /base/package.json
 COPY . /base
 RUN npm install
+RUN npm start
 
 
 # Stage 2

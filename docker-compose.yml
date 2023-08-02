@@ -17,7 +17,6 @@ services:
         - NODE_ENV=PRODUCTION
       context: backend
       target: operation
-    command: npm run start
     env_file: ./backend/.env
     ports:
       - 3000:3000
