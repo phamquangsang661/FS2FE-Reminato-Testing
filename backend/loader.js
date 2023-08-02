@@ -1,5 +1,4 @@
-
-import { pathToFileURL } from "node:url";
+import * as nodeUrl from "node:url";
 import {
   getFormat,
   load,
@@ -25,10 +24,10 @@ export function resolve(specifier, context, defaultResolver) {
       mappedSpecifier += "\\index";
     }
     specifier = `${mappedSpecifier}.js`;
-   
+
     const url = specifier.startsWith("file:")
       ? specifier
-      : pathToFileURL(specifier.toString());
+      : nodeUrl.pathToFileURL(specifier.toString());
 
     return resolveTs(url.toString(), context, defaultResolver);
   } else {
