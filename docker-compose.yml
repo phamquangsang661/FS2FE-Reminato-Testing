@@ -73,10 +73,10 @@ services:
     image: "cypress/included:7.5.0"
     depends_on:
       - frontend
+    entrypoint: cypress open --project /e2e
     environment:
       - CYPRESS_baseUrl=http://localhost:4001
       - CYPRESS_VIDEO=false
-    working_dir: /e2e
     volumes:
       - ./frontend/.:/e2e
 

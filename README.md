@@ -439,6 +439,10 @@ Each video have vote up count, vote down count. Beside watch videos directly in 
 
 Until now we don't any common issues during setup except losing network, right? 
 
-It will be great if we can run the app with docker compose in ubuntu/linux environment, if you have any question, please contact to me with gmail **phamquangsang661@gmail.com**. 
+It will be great if we can run the app with docker compose in ubuntu/linux environment.
+
+I tested in Linux/Amd64 success
+
+if you have any question, please contact to me with gmail **phamquangsang661@gmail.com**. 
 
 
