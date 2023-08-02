@@ -2,7 +2,9 @@ import { RefObject, useEffect } from "react";
 
 export function useTriggerScrollBottom(
     ref: RefObject<HTMLElement>,
-    callback: () => Promise<void> | void = () => { }
+    callback: () => Promise<void> | void = () => { },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    otherRef: any[] = []
 ) {
 
     useEffect(() => {
@@ -17,6 +19,6 @@ export function useTriggerScrollBottom(
         return () => {
             document.removeEventListener("scroll", trackScrolling)
         }
-    }, [ref])
+    }, [ref, ...otherRef])
     return { ref }
 }
