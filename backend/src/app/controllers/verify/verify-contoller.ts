@@ -45,7 +45,6 @@ export class VerifyController {
 
           res.cookie("jwt", token, {
             maxAge: +process.env.JWT_EXPIRED_TIME ?? DEFAULT_TIME_EXPIRED,
-            sameSite: "none",
             secure: false,
             httpOnly:true,
             path: "/"
