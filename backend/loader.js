@@ -21,7 +21,11 @@ export function resolve(specifier, context, defaultResolver) {
       fs.lstatSync(mappedSpecifier).isDirectory();
     //In case the mapped is directory, we will map to index file instead if have
     if (isDirectory) {
-      mappedSpecifier += "\\index";
+      if (process.platform === 'win32') {
+        mappedSpecifier += "\\index";
+      } else {
+        mappedSpecifier += "/index";
+      }
     }
     specifier = `${mappedSpecifier}.js`;
 
