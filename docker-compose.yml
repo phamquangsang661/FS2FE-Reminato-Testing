@@ -1,5 +1,6 @@
 services:
   rabbitmq:
+    container_name: rabbitmq
     image: rabbitmq:3-management
     ports:
       - 5672:5672
@@ -27,7 +28,6 @@ services:
     depends_on:
       - rabbitmq
 
-
   # Notification service
   notification-service:
     image: amd64/node
@@ -45,7 +45,7 @@ services:
 
   # Video service
   video-service:
-    image:  amd64/node
+    image: amd64/node
     command: npm run start:video
     working_dir: /base
     volumes:
@@ -83,6 +83,7 @@ services:
 networks:
   public:
   private:
+    driver: bridge
 volumes:
   backend:
     external: true
