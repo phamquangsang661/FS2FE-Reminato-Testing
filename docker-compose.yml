@@ -62,6 +62,7 @@ services:
       target: production
     ports:
       - 4001:4001
+    command: npx serve dist
     volumes:
       - ./frontend:/base/src
     networks:

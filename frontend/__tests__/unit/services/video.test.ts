@@ -2,7 +2,7 @@ import { getError } from '@utils/error'
 import api from "@utils/api";
 import { faker } from '@faker-js/faker';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { videoGetVideos, videoSharing, videoVoteVideo } from '@services/video';
+import videoService from '@services/video';
 import { fakeVideoData, fakeVideoSharing } from '__mocks__/fake/video';
 
 
@@ -28,7 +28,7 @@ describe('Service auth sign in', () => {
 
 
         try {
-            const res = await videoGetVideos({
+            const res = await videoService.videoGetVideos({
                 query: {}
             })
 
@@ -56,7 +56,7 @@ describe('Service auth sign in', () => {
         })
 
         try {
-            const res = await videoGetVideos({
+            const res = await videoService.videoGetVideos({
                 query
             })
 
@@ -75,7 +75,7 @@ describe('Service auth sign in', () => {
 
         try {
 
-            const res = await videoSharing({
+            const res = await videoService.videoSharing({
                 data: {
                     url: faker.internet.url()
                 }
@@ -95,7 +95,7 @@ describe('Service auth sign in', () => {
 
         try {
 
-            const res = await videoVoteVideo({
+            const res = await videoService.videoVoteVideo({
                 body: {
                     type: faker.string.fromCharacters(["up", "down"]) as "up" | "down"
                 },

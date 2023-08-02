@@ -37,7 +37,8 @@ describe("Libs/hook Socket hook", () => {
 
         const { result: hook, rerender } = renderHook(() => useSocket({
             url: faker.internet.url.toString()
-        }))
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any))
         act(() => {
             rerender()
         })
